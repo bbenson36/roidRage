@@ -8,21 +8,6 @@ Asteroids.screens['main-menu'] = (function() {
 			'click',
 			function() { Asteroids.game.showScreen('game-play'); },
 			false);
-		
-		document.getElementById('id-high-scores').addEventListener(
-			'click',
-			function() { Asteroids.game.showScreen('high-scores'); },
-			false);
-		
-		document.getElementById('id-help').addEventListener(
-			'click',
-			function() { Asteroids.game.showScreen('help'); },
-			false);
-		
-		document.getElementById('id-about').addEventListener(
-			'click',
-			function() { Asteroids.game.showScreen('about'); },
-			false);
 	}
 	
 	function run() {

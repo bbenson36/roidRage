@@ -123,7 +123,6 @@ Asteroids.input = (function() {
 	
 	return {
 		Keyboard : Keyboard,
-		Time : Time,
 		Mouse : Mouse
 	};
 }());

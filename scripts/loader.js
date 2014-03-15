@@ -22,13 +22,24 @@ window.addEventListener('load', function() {
 	Modernizr.load([
 		{
 			load : [
-			    'prelaod!gameEngine/input.js',
+			    //images
+			    'preload!images/background.jpg',
+			    //libs
+			    'preload!libs/physics.js',
+			    'preload!libs/random.js',
+			    //gameEngine
+			    'prelaod!gameEngine/input.js',    
 			    'preload!gameEngine/renderer.js',
-			    'preload!gameScripts/mainmenu.js',
-			    'preload!gameScriptscripts/gameplay.js',
-			    'preload!gameScriptscripts/help.js',
 			    'preload!gameEngine/particle-system.js',
-			    'preload!gameEngine/random.js',
+			    'preload!gameEngine/ai.js',
+			    'preload!gameEngine/collision.js',
+			    'preload!gameEngine/dataPersistence.js',
+			    'preload!gameEngine/objects.js',
+			    'prelaod!gameEngine/sounds.js',
+			    //gameScripts
+			    'preload!gameScripts/scoring.js',
+			    'preload!gameScripts/mainmenu.js',
+			    'preload!gameScripts/gameplay.js',
 				'preload!gameScripts/game.js'
 			],
 			complete : function() {

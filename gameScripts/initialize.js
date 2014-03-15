@@ -6,11 +6,7 @@
 Asteroids.initialize = (function initialize(graphics, images, input) {
 	'use strict';
 
-	var myDrawnCoins = undefined,
-		myDrawnBackground = undefined,
-		myDrawnPig = undefined,
-		myDrawnScore = undefined,
-		elapsedTime = 0,
+	var	elapsedTime = 0,
 		lastTimeStamp = performance.now(),
 		myKeyboard = input.Keyboard(),
 		myMouse = input.Mouse(),
@@ -42,7 +38,7 @@ Asteroids.initialize = (function initialize(graphics, images, input) {
 		
 		
 		myDrawnBackground = graphics.BackgroundDraw({
-			image : Asteroids.images['images/Background.png']
+			image : Asteroids.images['images/background.jpg']
 		});
 		
 		
