@@ -1,4 +1,4 @@
-Asteriods.movement = (function(){
+Asteroids.movement = (function(){
 	
 	function ShipMovement() {
 		var that = {
@@ -6,15 +6,20 @@ Asteriods.movement = (function(){
 		};
 		
 		that.turnLeft = function(ship, elapsedTime){
-			ship.heading += turnRate*elapsedTime;
+			ship.rotation -= that.turnRate*elapsedTime/1000;
+			console.log("left!");
 		};
 		
 		that.turnRight = function(ship, elapsedTime){
-			ship.heading += turnRate*elapsedTime;
+			ship.rotation += that.turnRate*elapsedTime/1000;
+			console.log("right!");
 		};
 		
+		//this will need to make a physics call
 		that.booster = function(ship,elapsedTime){
-			ship.pos += ship.heading * elapsedTime/1000;
+			ship.posX += elapsedTime/1000;
+			ship.posY += elapsedTime/1000;
+			console.log("boost!");
 		};
 		
 		return that;

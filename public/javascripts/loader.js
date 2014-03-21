@@ -23,7 +23,8 @@ window.addEventListener('load', function() {
 		{
 			load : [
 			    //images
-			    'preload!images/background.jpg',
+			    'preload!images/background.png',
+			    'preload!images/ship.png',
 			    //libs
 			    'preload!libs/physics.js',
 			    'preload!libs/random.js',
@@ -35,6 +36,7 @@ window.addEventListener('load', function() {
 			    'preload!gameEngine/collision.js',
 			    'preload!gameEngine/dataPersistence.js',
 			    'preload!gameEngine/objects.js',
+			    'prelaod!gameEngine/movement.js',
 			    'prelaod!gameEngine/sounds.js',
 			    //gameScripts
 			    'preload!gameScripts/scoring.js',

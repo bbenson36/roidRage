@@ -5,7 +5,10 @@ Asteroids.screens['game-play'] = (function() {
 		myMouse = Asteroids.input.Mouse(),
 		myKeyboard = Asteroids.input.Keyboard(),
 		cancelNextRequest = false,
+		moveShip = Asteroids.movement.ShipMovement(),
+		myShip = Asteroids.objects.Ship(),
 		myDrawnBackground = undefined,
+		mySpaceShip = undefined,
 		lastTimeStamp = performance.now(),
 		particlesMoney = undefined;
 	
@@ -17,7 +20,12 @@ Asteroids.screens['game-play'] = (function() {
 		
 		
 		myDrawnBackground = Asteroids.graphics.BackgroundDraw({
-			image : Asteroids.images['images/Background.png']
+			image : Asteroids.images['images/background.png']
+		});
+		
+		mySpaceShip = Asteroids.graphics.ShipDraw({
+			image : Asteroids.images['images/ship.png'],
+			width : 190, height : 100
 		});
 		
 		
@@ -30,6 +38,19 @@ Asteroids.screens['game-play'] = (function() {
 			});
 		//
 		// Create the keyboard input handler and register the keyboard commands
+		
+		
+		//not sure why these aren't working
+		myKeyboard.registerCommand(KeyEvent.DOM_VK_LEFT, function(){
+			console.log('left');
+			moveShip.turnLeft(myShip,Asteroids.elapsedTime);
+			});
+		myKeyboard.registerCommand(KeyEvent.DOM_VK_RIGHT, function(){moveShip.turnRight(myShip,Asteroids.elapsedTime);});
+		myKeyboard.registerCommand(KeyEvent.DOM_VK_UP, function(){moveShip.booster(myShip,Asteroids.elapsedTime);});
+		myKeyboard.registerCommand(KeyEvent.DOM_VK_A, function(){moveShip.turnLeft(myShip,Asteroids.elapsedTime);});
+		myKeyboard.registerCommand(KeyEvent.DOM_VK_D, function(){moveShip.turnRight(myShip,Asteroids.elapsedTime);});
+		myKeyboard.registerCommand(KeyEvent.DOM_VK_W, function(){moveShip.booster(myShip,Asteroids.elapsedTime);});
+		
 
 		myKeyboard.registerCommand(KeyEvent.DOM_VK_ESCAPE, function() {
 			//
@@ -59,12 +80,13 @@ Asteroids.screens['game-play'] = (function() {
 
 	
 	function update(elapsedTime){
-	
+		
 	}
 	
 	function render(elapsedTime){
 		Asteroids.graphics.clear();
 		myDrawnBackground.draw();
+		mySpaceShip.draw(myShip);
 	}
 	
 	function run() {

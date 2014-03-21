@@ -195,23 +195,51 @@ Asteroids.graphics = (function() {
 		return that;
 	}
 	
+	function ShipDraw(spec){
+		var that = {};
+		
+		that.draw = function(ship){
+			//canvas.width  = window.innerWidth;
+			//canvas.height = window.innerHeight;
+			
+			context.save();
+			
+			context.translate(ship.posx, ship.posy);
+			context.rotate(ship.rotation);
+			context.translate(-ship.posx, -ship.posy);
+			
+			console.log(ship.posX);
+			
+			context.drawImage(
+					spec.image, 
+					//ship.posX*canvas.width, 
+					.5*canvas.width,
+					//ship.posY*canvas.height,
+					.5*canvas.height,
+					spec.width, 
+					spec.height
+					);
+			context.restore();
+		};
+		
+		return that;
+		
+	}
 	
 	function BackgroundDraw(spec){
-		var that = { widthHeight : 0};
-		
-		that.widthHeight = canvas.width*0.8;
+		var that = {};
 		
 		that.draw = function(){
 			canvas.width  = window.innerWidth;
 			canvas.height = window.innerHeight;
-			that.widthHeight = canvas.width;
-		
 			
 			context.drawImage(
 					spec.image, 
 					0, 
 					0,
-					canvas.width, canvas.height);
+					canvas.width, 
+					canvas.height
+					);
 			
 		};
 		
@@ -222,10 +250,7 @@ Asteroids.graphics = (function() {
 	return {
 		clear : clear,
 		BackgroundDraw : BackgroundDraw,
-		PigDraw : PigDraw,
-		ScoreDraw : ScoreDraw,
-		CountDraw : CountDraw,
 		drawImage : drawImage,
-		CoinDraw : CoinDraw
+		ShipDraw : ShipDraw
 	};
 }());
