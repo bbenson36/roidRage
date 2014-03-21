@@ -17,11 +17,13 @@ var physics = (function() {
             var yVelocity = gameObject.velY;
             var direction = gameObject.rotation;
             
-            if(xVelocity < 0.1)
+            console.log("X: " + xVelocity);
+            console.log("Y: " + xVelocity);
+            if(xVelocity < 1)
             {
                 xVelocity += (power * Math.cos(direction)) * (time/1000);
             }
-            if(yVelocity < 0.1)
+            if(yVelocity < 1)
             {
                 yVelocity += (power * Math.sin(direction)) * (time/1000);
             }
@@ -31,10 +33,16 @@ var physics = (function() {
             gameObject.velY = yVelocity;
         }
 	
+        function drift(gameObject, time)
+        {
+            gameObject.posX -= gameObject.velX * (time/1000);
+            gameObject.posY -= gameObject.velY *time/1000;
+        }
 	
 	return {
 		caclAngle : calcAngle,
 		calcSpeed : calcSpeed,
-                accelerate : accelerate
+                accelerate : accelerate,
+                drift : drift
 	};
 }());

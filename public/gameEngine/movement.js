@@ -19,8 +19,6 @@ Asteroids.movement = (function(){
 		that.booster = function(ship,elapsedTime){
                     
                         physics.accelerate(ship, elapsedTime);
-			ship.posX += elapsedTime/1000;
-			ship.posY += elapsedTime/1000;
 			console.log("boost!");
 		};
 		

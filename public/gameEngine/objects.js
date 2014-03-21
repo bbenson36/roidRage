@@ -8,7 +8,7 @@ Asteroids.objects = (function(){
                                 velX : 0,
                                 velY : 0,
                                 
-                                power: 0.01,
+                                power: 0.1,
                                 
 				rotation : 0
 		};

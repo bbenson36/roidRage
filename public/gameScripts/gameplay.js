@@ -81,6 +81,7 @@ Asteroids.screens['game-play'] = (function() {
 	
 	function update(elapsedTime){
 		myKeyboard.update();
+                physics.drift(myShip,elapsedTime);
 		
 	}
 	
