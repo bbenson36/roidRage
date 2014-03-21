@@ -26,6 +26,7 @@ var physics = (function() {
                 yVelocity += (power * Math.sin(direction)) * (time/1000);
             }
             
+            
             gameObject.velX = xVelocity;
             gameObject.velY = yVelocity;
         }
