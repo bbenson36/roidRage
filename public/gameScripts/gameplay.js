@@ -25,7 +25,7 @@ Asteroids.screens['game-play'] = (function() {
 		
 		mySpaceShip = Asteroids.graphics.ShipDraw({
 			image : Asteroids.images['images/ship.png'],
-			width : 190, height : 100
+			width : 100, height : 100
 		});
 		
 		
@@ -80,6 +80,7 @@ Asteroids.screens['game-play'] = (function() {
 
 	
 	function update(elapsedTime){
+		myKeyboard.update();
 		
 	}
 	

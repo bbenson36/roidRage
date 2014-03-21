@@ -110,7 +110,6 @@ Asteroids.input = (function() {
 					that.handlers[key].handler(elapsedTime);
 				}
 			}
-			that.keys=[];
 		};
 		
 		//

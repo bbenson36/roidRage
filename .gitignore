@@ -213,3 +213,22 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+node_modules/.bin/express
+node_modules/.bin/express.cmd
+node_modules/ejs/.npmignore
+*.yml
+*.md
+node_modules/ejs/Makefile
+node_modules/ejs/benchmark.js
+node_modules/ejs/ejs.js
+node_modules/ejs/ejs.min.js
+node_modules/ejs/examples/client.html
+node_modules/ejs/examples/functions.ejs
+node_modules/ejs/examples/functions.js
+node_modules/ejs/examples/list.ejs
+node_modules/ejs/examples/list.js
+node_modules/ejs/index.js
+node_modules/ejs/lib/filters.js
+node_modules/ejs/lib/ejs.js
+node_modules/ejs/lib/utils.js
+node_modules/ejs/package.json

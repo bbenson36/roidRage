@@ -199,23 +199,17 @@ Asteroids.graphics = (function() {
 		var that = {};
 		
 		that.draw = function(ship){
-			//canvas.width  = window.innerWidth;
-			//canvas.height = window.innerHeight;
 			
 			context.save();
 			
-			context.translate(ship.posx, ship.posy);
+			context.translate(ship.posX*canvas.width, ship.posY*canvas.height);
 			context.rotate(ship.rotation);
-			context.translate(-ship.posx, -ship.posy);
-			
-			console.log(ship.posX);
+			context.translate(-ship.posX*canvas.width, -ship.posY*canvas.height);
 			
 			context.drawImage(
 					spec.image, 
-					//ship.posX*canvas.width, 
-					.5*canvas.width,
-					//ship.posY*canvas.height,
-					.5*canvas.height,
+					ship.posX*canvas.width,
+					ship.posY*canvas.height,
 					spec.width, 
 					spec.height
 					);
