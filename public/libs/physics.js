@@ -17,7 +17,7 @@ var physics = (function() {
             var yVelocity = gameObject.velocity.y;
             var direction = gameObject.rotation;
             
-            if(xVelocity < 1)
+            if(Math.abs(xVelocity) < 1)
             {
                 xVelocity += (power * Math.cos(direction)) * (time/1000);
             }
@@ -25,7 +25,7 @@ var physics = (function() {
             {
                 xVelocity = 0.99;
             }
-            if(yVelocity < 1)
+            if(Math.abs(yVelocity) < 1)
             {
                 yVelocity += (power * Math.sin(direction)) * (time/1000);
             }
