@@ -4,6 +4,10 @@ Asteroids.objects = (function(){
 		var that = {
 				posX : 0,
 				posY : 0,
+                                
+                                velX : 0,
+                                velY : 0,
+                                
 				rotation : 0
 		};
 		
