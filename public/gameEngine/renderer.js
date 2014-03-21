@@ -208,8 +208,8 @@ Asteroids.graphics = (function() {
 			
 			context.drawImage(
 					spec.image, 
-					ship.posX*canvas.width,
-					ship.posY*canvas.height,
+					ship.posX*canvas.width - (spec.width/2),
+					ship.posY*canvas.height - (spec.height/2),
 					spec.width, 
 					spec.height
 					);

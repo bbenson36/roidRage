@@ -2,8 +2,8 @@ Asteroids.objects = (function(){
 	
 	function Ship(){
 		var that = {
-				posX : 0,
-				posY : 0,
+				posX : 0.5,
+				posY : 0.5,
                                 
                                 velocity : {
                                     x : 0,

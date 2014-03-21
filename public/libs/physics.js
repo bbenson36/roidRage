@@ -21,9 +21,17 @@ var physics = (function() {
             {
                 xVelocity += (power * Math.cos(direction)) * (time/1000);
             }
+            else
+            {
+                xVelocity = 0.99;
+            }
             if(yVelocity < 1)
             {
                 yVelocity += (power * Math.sin(direction)) * (time/1000);
+            }
+            else
+            {
+                yVelocity = 0.99;
             }
             
             
@@ -39,24 +47,23 @@ var physics = (function() {
         
         function wrapAround(gameObject)
         {
-            if(gameObject.xPos > 1)
+            if(gameObject.posX > 1)
             {
-                gameObject.xPos -= 1;
+                gameObject.posX -= 1;
             }
-            else if(gameObject.xPos <  0)
+            else if(gameObject.posX < 0)
             {
-                gameObject.xPos += 1;
+                gameObject.posX += 1;
             }
 
-            if(gameObject.yPos >  1)
+            if(gameObject.posY > 1)
             {
-                gameObject.yPos -= 1;
+                gameObject.posY -= 1;
             }
-            else if(gameObject.yPos <  0)
+            else if(gameObject.posY < 0)
             {
-                gameObject.yPos += 1;
+                gameObject.posY += 1;
             }
-            console.log("x,y : "+ gameObject.xPos + ","+  gameObject.yPos);
         }
 	
 	return {

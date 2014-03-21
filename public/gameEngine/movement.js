@@ -21,29 +21,6 @@ Asteroids.movement = (function(){
                         physics.accelerate(gamebject, elapsedTime);
 			console.log("boost!");
 		};
-                
-                that.wrapAround = function(gameObject)
-                {
-                    if(gameObject.posX > 1)
-                    {
-                        gameObject.posX -= 1;
-                    }
-                    else if(gameObject.posX <  0)
-                    {
-                        gameObject.posX += 1;
-                    }
-                    
-                    if(gameObject.posY >  1)
-                    {
-                        gameObject.posY -= 1;
-                    }
-                    else if(gameObject.posY <  0)
-                    {
-                        gameObject.posY += 1;
-                    }
-                    console.log("X,y : "+ gameObject.posX + ","+  gameObject.posY);
-                    
-                };
 		
 		return that;
 	}
