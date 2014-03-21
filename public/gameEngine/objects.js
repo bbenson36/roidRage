@@ -5,8 +5,10 @@ Asteroids.objects = (function(){
 				posX : 0,
 				posY : 0,
                                 
-                                velX : 0,
-                                velY : 0,
+                                velocity : {
+                                    x : 0,
+                                    y : 0
+                                },
                                 
                                 power: 0.1,
                                 

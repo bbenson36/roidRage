@@ -13,12 +13,10 @@ var physics = (function() {
         function accelerate(gameObject, time)
         {
             var power = gameObject.power;
-            var xVelocity = gameObject.velX;
-            var yVelocity = gameObject.velY;
+            var xVelocity = gameObject.velocity.x;
+            var yVelocity = gameObject.velocity.y;
             var direction = gameObject.rotation;
             
-            console.log("X: " + xVelocity);
-            console.log("Y: " + xVelocity);
             if(xVelocity < 1)
             {
                 xVelocity += (power * Math.cos(direction)) * (time/1000);
@@ -29,20 +27,43 @@ var physics = (function() {
             }
             
             
-            gameObject.velX = xVelocity;
-            gameObject.velY = yVelocity;
+            gameObject.velocity.x = xVelocity;
+            gameObject.velocity.y = yVelocity;
         }
 	
         function drift(gameObject, time)
         {
-            gameObject.posX -= gameObject.velX * (time/1000);
-            gameObject.posY -= gameObject.velY *time/1000;
+            gameObject.posX -= gameObject.velocity.x * (time/1000);
+            gameObject.posY -= gameObject.velocity.y *time/1000;
+        }
+        
+        function wrapAround(gameObject)
+        {
+            if(gameObject.xPos > 1)
+            {
+                gameObject.xPos -= 1;
+            }
+            else if(gameObject.xPos <  0)
+            {
+                gameObject.xPos += 1;
+            }
+
+            if(gameObject.yPos >  1)
+            {
+                gameObject.yPos -= 1;
+            }
+            else if(gameObject.yPos <  0)
+            {
+                gameObject.yPos += 1;
+            }
+            console.log("x,y : "+ gameObject.xPos + ","+  gameObject.yPos);
         }
 	
 	return {
 		caclAngle : calcAngle,
 		calcSpeed : calcSpeed,
                 accelerate : accelerate,
-                drift : drift
+                drift : drift,
+                wrapAround : wrapAround
 	};
 }());
