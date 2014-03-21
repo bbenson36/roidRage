@@ -12,10 +12,10 @@ var physics = (function() {
         
         function accelerate(gameObject, time)
         {
-            power = 0.01;
-            xVelocity = gameObject.velX;
-            yVelocity = gameObject.velY;
-            direction = gameObject.rotation;
+            var power = 0.01;
+            var xVelocity = gameObject.velX;
+            var yVelocity = gameObject.velY;
+            var direction = gameObject.rotation;
             
             if(xVelocity < 0.1)
             {
