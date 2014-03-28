@@ -126,6 +126,12 @@ Asteroids.screens['game-play'] = (function() {
                     physics.drift(shotList[i],elapsedTime);
                     physics.wrapAround(shotList[i]);
                     physics.spin(shotList[i], elapsedTime);
+                    
+                    shotList[i].age += elapsedTime;
+                    if(shotList[i].age > 2500)
+                    {
+                        shotList.shift();
+                    }
                 }
                 
 		

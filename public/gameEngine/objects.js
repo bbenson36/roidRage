@@ -62,6 +62,8 @@ Asteroids.objects = (function(){
             
             rotation : ship.rotation,
             
+            age : 0,
+            
             type : "shot"
         };
         
