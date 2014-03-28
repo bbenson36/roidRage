@@ -219,13 +219,63 @@ Asteroids.graphics = (function() {
 		return that;
 		
 	}
+        
+        function ShotDraw(spec){
+		var that = {};
+		
+		that.draw = function(shot){
+			
+			context.save();
+			
+			context.translate(shot.posX*canvas.width, shot.posY*canvas.height);
+			context.rotate(shot.rotation);
+			context.translate(-shot.posX*canvas.width, -shot.posY*canvas.height);
+			
+			context.drawImage(
+					spec.image, 
+					shot.posX*canvas.width - (spec.width/2),
+					shot.posY*canvas.height - (spec.height/2),
+					spec.width, 
+					spec.height
+					);
+			context.restore();
+		};
+		
+		return that;
+		
+	}
+        
+        
+        function RoidDraw(spec){
+            var that = {};
+
+            that.draw = function(roid){
+
+                context.save();
+
+                context.translate(roid.posX*canvas.width, roid.posY*canvas.height);
+                context.rotate(roid.rotation);
+                context.translate(-roid.posX*canvas.width, -roid.posY*canvas.height);
+
+                context.drawImage(
+                    spec.image, 
+                    roid.posX*canvas.width - (spec.width/2)*roid.scale,
+                    roid.posY*canvas.height - (spec.height/2)*roid.scale,
+                    spec.width*roid.scale, 
+                    spec.height*roid.scale
+                    );
+                context.restore();
+            };
+
+            return that;
+	}
 	
 	function BackgroundDraw(spec){
 		var that = {};
 		
 		that.draw = function(){
-			canvas.width  = window.innerWidth;
-			canvas.height = window.innerHeight;
+			canvas.width  = 900;//window.innerWidth;
+			canvas.height = 600;//window.innerHeight;
 			
 			context.drawImage(
 					spec.image, 
@@ -245,6 +295,8 @@ Asteroids.graphics = (function() {
 		clear : clear,
 		BackgroundDraw : BackgroundDraw,
 		drawImage : drawImage,
-		ShipDraw : ShipDraw
+		ShipDraw : ShipDraw,
+                RoidDraw : RoidDraw,
+                ShotDraw : ShotDraw
 	};
 }());

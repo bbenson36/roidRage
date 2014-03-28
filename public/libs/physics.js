@@ -65,12 +65,18 @@ var physics = (function() {
                 gameObject.posY += 1;
             }
         }
+        
+        function spin(gameObject, time)
+        {
+            gameObject.rotation += gameObject.spin * time;
+        }
 	
 	return {
 		caclAngle : calcAngle,
 		calcSpeed : calcSpeed,
                 accelerate : accelerate,
                 drift : drift,
-                wrapAround : wrapAround
+                wrapAround : wrapAround,
+                spin : spin
 	};
 }());

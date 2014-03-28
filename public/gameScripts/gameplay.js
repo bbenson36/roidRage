@@ -7,8 +7,12 @@ Asteroids.screens['game-play'] = (function() {
 		cancelNextRequest = false,
 		moveShip = Asteroids.movement.ShipMovement(),
 		myShip = Asteroids.objects.Ship(),
+                asteroids = new Array(),
+                shotList = new Array(),
 		myDrawnBackground = undefined,
 		mySpaceShip = undefined,
+                roids = undefined,
+                shot = undefined,
 		lastTimeStamp = performance.now(),
 		particlesMoney = undefined;
 	
@@ -27,6 +31,24 @@ Asteroids.screens['game-play'] = (function() {
 			image : Asteroids.images['images/ship.png'],
 			width : 100, height : 100
 		});
+                
+                roids = Asteroids.graphics.RoidDraw({
+			image : Asteroids.images['images/asteroid.png'],
+			width : 50, height : 50
+		});
+                
+                shot = Asteroids.graphics.ShotDraw({
+			image : Asteroids.images['images/shot.png'],
+			width : 50, height : 50
+		});
+                
+                asteroids.push(Asteroids.objects.Asteroid(1));//takes the generation, after hit spawned will have a 2
+                asteroids.push(Asteroids.objects.Asteroid(1));
+                asteroids.push(Asteroids.objects.Asteroid(2));
+                asteroids.push(Asteroids.objects.Asteroid(4));
+                
+                console.log(asteroids[0].spin);
+                
 		
 		
 		myMouse.registerCommand('mousedown',function(e){
@@ -50,6 +72,8 @@ Asteroids.screens['game-play'] = (function() {
 		myKeyboard.registerCommand(KeyEvent.DOM_VK_A, function(){moveShip.turnLeft(myShip,Asteroids.elapsedTime);});
 		myKeyboard.registerCommand(KeyEvent.DOM_VK_D, function(){moveShip.turnRight(myShip,Asteroids.elapsedTime);});
 		myKeyboard.registerCommand(KeyEvent.DOM_VK_W, function(){moveShip.booster(myShip,Asteroids.elapsedTime);});
+                myKeyboard.registerCommand(KeyEvent.DOM_VK_SPACE, function(){
+                    shotList.push(Asteroids.objects.Shot(myShip), console.log("space pressed"))});
 		
 
 		myKeyboard.registerCommand(KeyEvent.DOM_VK_ESCAPE, function() {
@@ -83,6 +107,13 @@ Asteroids.screens['game-play'] = (function() {
 		myKeyboard.update();
                 physics.drift(myShip,elapsedTime);
                 physics.wrapAround(myShip);
+                
+                for (var i = 0; i < asteroids.length; i++)
+                { 
+                    physics.drift(asteroids[i],elapsedTime);
+                    physics.wrapAround(asteroids[i]);
+                    physics.spin(asteroids[i], elapsedTime);
+                }
 		
 	}
 	
@@ -90,7 +121,16 @@ Asteroids.screens['game-play'] = (function() {
 		Asteroids.graphics.clear();
 		myDrawnBackground.draw();
 		mySpaceShip.draw(myShip);
+                
+                for (var i = 0; i < asteroids.length; i++)
+                { 
+                    roids.draw(asteroids[i]);
+                }
 	}
+        
+        function collide (elapsedTime){
+            
+        }
 	
 	function run() {
 		
