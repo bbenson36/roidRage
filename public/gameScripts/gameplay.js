@@ -13,8 +13,10 @@ Asteroids.screens['game-play'] = (function() {
 		mySpaceShip = undefined,
                 roids = undefined,
                 shot = undefined,
+                shooting = false,
 		lastTimeStamp = performance.now(),
-		particlesMoney = undefined;
+		particlesMoney = undefined,
+                lastShot = 1;
 	
 	function initialize() {
 		console.log('game initializing...');
@@ -72,8 +74,9 @@ Asteroids.screens['game-play'] = (function() {
 		myKeyboard.registerCommand(KeyEvent.DOM_VK_A, function(){moveShip.turnLeft(myShip,Asteroids.elapsedTime);});
 		myKeyboard.registerCommand(KeyEvent.DOM_VK_D, function(){moveShip.turnRight(myShip,Asteroids.elapsedTime);});
 		myKeyboard.registerCommand(KeyEvent.DOM_VK_W, function(){moveShip.booster(myShip,Asteroids.elapsedTime);});
-                myKeyboard.registerCommand(KeyEvent.DOM_VK_SPACE, function(){
-                    shotList.push(Asteroids.objects.Shot(myShip), console.log("space pressed"))});
+                
+                
+                myKeyboard.registerCommand(KeyEvent.DOM_VK_SPACE, function(){requestShot(myShip);});
 		
 
 		myKeyboard.registerCommand(KeyEvent.DOM_VK_ESCAPE, function() {
@@ -104,6 +107,8 @@ Asteroids.screens['game-play'] = (function() {
 
 	
 	function update(elapsedTime){
+            
+            lastShot += elapsedTime;
 		myKeyboard.update();
                 physics.drift(myShip,elapsedTime);
                 physics.wrapAround(myShip);
@@ -114,6 +119,15 @@ Asteroids.screens['game-play'] = (function() {
                     physics.wrapAround(asteroids[i]);
                     physics.spin(asteroids[i], elapsedTime);
                 }
+                
+                
+                for (var i = 0; i < shotList.length; i++)
+                { 
+                    physics.drift(shotList[i],elapsedTime);
+                    physics.wrapAround(shotList[i]);
+                    physics.spin(shotList[i], elapsedTime);
+                }
+                
 		
 	}
 	
@@ -126,9 +140,32 @@ Asteroids.screens['game-play'] = (function() {
                 { 
                     roids.draw(asteroids[i]);
                 }
+                
+                for (var i = 0; i < shotList.length; i++)
+                { 
+                    console.log(shotList[i]);
+                    shot.draw(shotList[i]);
+                }
 	}
         
         function collide (elapsedTime){
+            
+        }
+        
+        
+        function requestShot(gameObject)
+        {
+            //console.log("requesting shot");
+            //console.log("time at request:" + time);
+            if(lastShot > 500)
+            {
+                shotSpawn(gameObject);
+                lastShot = 0;
+            }
+        }
+        function shotSpawn(gameObject){
+            shotList.push(new Asteroids.objects.Shot(gameObject));
+            console.log(shotList[shotList.length-1].rotation);
             
         }
 	

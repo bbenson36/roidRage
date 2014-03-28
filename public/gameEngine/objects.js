@@ -59,6 +59,7 @@ Asteroids.objects = (function(){
                 x : Math.cos(ship.rotation),
                 y : Math.sin(ship.rotation)
             },
+            
             rotation : ship.rotation,
             
             type : "shot"
