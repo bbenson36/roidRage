@@ -2,7 +2,7 @@ Asteroids.movement = (function(){
 	
 	function ShipMovement() {
 		var that = {
-			turnRate : 1	
+			turnRate : 3	
 		};
 		
 		that.turnLeft = function(ship, elapsedTime){

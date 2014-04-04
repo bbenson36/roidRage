@@ -21,7 +21,7 @@ Asteroids.screens['game-play'] = (function() {
         lastShot = 1;
                 
                 
-            var toSpawn = 1;
+            var toSpawn = 4;
 	
 	function initialize() {
 		console.log('game initializing...');
