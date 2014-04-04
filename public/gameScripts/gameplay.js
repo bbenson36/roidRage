@@ -7,8 +7,8 @@ Asteroids.screens['game-play'] = (function() {
 		cancelNextRequest = false,
 		moveShip = Asteroids.movement.ShipMovement(),
 		myShip = Asteroids.objects.Ship(),
-                asteroids = new Array(),
-                shotList = new Array(),
+                asteroids = Asteroids.objects.AsteroidList(),
+                shotList = Asteroids.objects.ShotList(),
 		myDrawnBackground = undefined,
 		mySpaceShip = undefined,
                 roids = undefined,
@@ -17,6 +17,9 @@ Asteroids.screens['game-play'] = (function() {
 		lastTimeStamp = performance.now(),
 		particlesMoney = undefined,
                 lastShot = 1;
+                
+                
+            var toSpawn = 8;
 	
 	function initialize() {
 		console.log('game initializing...');
@@ -44,12 +47,17 @@ Asteroids.screens['game-play'] = (function() {
 			width : 50, height : 50
 		});
                 
-                asteroids.push(Asteroids.objects.Asteroid(1));//takes the generation, after hit spawned will have a 2
+                /*asteroids.push(Asteroids.objects.Asteroid(1));//takes the generation, after hit spawned will have a 2
                 asteroids.push(Asteroids.objects.Asteroid(1));
                 asteroids.push(Asteroids.objects.Asteroid(2));
-                asteroids.push(Asteroids.objects.Asteroid(4));
+                asteroids.push(Asteroids.objects.Asteroid(4));*/
                 
-                console.log(asteroids[0].spin);
+                for(var i = 0; i < toSpawn; ++i)
+                {
+                    asteroids.list.push(Asteroids.objects.Asteroid(1));
+                }
+                
+                console.log(asteroids.list[0].spin);
                 
 		
 		
@@ -133,7 +141,6 @@ Asteroids.screens['game-play'] = (function() {
                 shotList.shift();
             }
         }
-                
 		
 	}
 	
@@ -142,15 +149,16 @@ Asteroids.screens['game-play'] = (function() {
 		myDrawnBackground.draw();
 		mySpaceShip.draw(myShip);
                 
-                for (var i = 0; i < asteroids.length; i++)
+                for (var i = 0; i < asteroids.list.length; i++)
                 { 
-                    roids.draw(asteroids[i]);
+                    roids.draw(asteroids.list[i]);
                 }
-                
-                for (var i = 0; i < shotList.length; i++)
-                { 
-                    console.log(shotList[i]);
-                    shot.draw(shotList[i]);
+                if(typeof shotList.list !== 'undefined')
+                {
+                    for (var i = 0; i < shotList.list.length; i++)
+                    { 
+                        shot.draw(shotList.list[i]);
+                    }
                 }
 	}
         
@@ -170,8 +178,10 @@ Asteroids.screens['game-play'] = (function() {
             }
         }
         function shotSpawn(gameObject){
-            shotList.push(new Asteroids.objects.Shot(gameObject));
-            console.log(shotList[shotList.length-1].rotation);
+            console.log(shotList.list);
+            //asteroids.list.push(Asteroids.objects.Asteroid(1));
+            shotList.list.push(new Asteroids.objects.Shot(gameObject));
+            console.log(shotList.list[shotList.list.length-1].rotation);
             
         }
 	
