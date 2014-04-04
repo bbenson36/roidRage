@@ -19,7 +19,7 @@ Asteroids.screens['game-play'] = (function() {
                 lastShot = 1;
                 
                 
-            var toSpawn = 8;
+            var toSpawn = 1;
 	
 	function initialize() {
 		console.log('game initializing...');
@@ -34,7 +34,7 @@ Asteroids.screens['game-play'] = (function() {
 		
 		mySpaceShip = Asteroids.graphics.ShipDraw({
 			image : Asteroids.images['images/ship.png'],
-			width : 100, height : 100
+			width : myShip.width, height : myShip.height
 		});
                 
                 roids = Asteroids.graphics.RoidDraw({
@@ -74,7 +74,7 @@ Asteroids.screens['game-play'] = (function() {
 		
 		//not sure why these aren't working
 		myKeyboard.registerCommand(KeyEvent.DOM_VK_LEFT, function(){
-			console.log('left');
+			//console.log('left');
 			moveShip.turnLeft(myShip,Asteroids.elapsedTime);
 			});
 		myKeyboard.registerCommand(KeyEvent.DOM_VK_RIGHT, function(){moveShip.turnRight(myShip,Asteroids.elapsedTime);});
@@ -107,6 +107,7 @@ Asteroids.screens['game-play'] = (function() {
 		Asteroids.lastTimeStamp = time;
 		update(Asteroids.elapsedTime);
 		render(Asteroids.elapsedTime);
+                collide();
 		if(!cancelNextRequest){
 			requestAnimationFrame(gameLoop);
 		}
@@ -161,7 +162,68 @@ Asteroids.screens['game-play'] = (function() {
                 }
 	}
         
-        function collide (elapsedTime){
+        function collide (){
+            
+            //check bullets with asteroids
+            for(var s = 0; s < shotList.list.length; ++s)
+            {
+                var shot = shotList.list[s];
+                var xOfShot = (shot.posX*Math.cos(shot.rotation))+shot.height/2;
+                var yOfShot = (shot.posY*Math.sin(shot.rotation))+shot.width/2;
+                //console.log("shot #:" + s);
+                for(var a = 0; a < asteroids.list.length; ++a)
+                {
+                    var aster = asteroids.list[a];
+                    var hit = false;
+                    
+                    
+                    //console.log("point of shot: "+shot.posX+shot.height/2)*Math.cos(shot.rotation);
+                    if(xOfShot > (aster.posX+aster.height/2) && xOfShot < (aster.posX-aster.height/2)
+                        && yOfShot >(aster.posY+aster.width/2) && yOfShot < (aster.posY-aster.width/2))
+                    {
+                        console.log("HIT");
+                        hit = true;
+                        if(aster.generation === 1)
+                        {
+                            for(var i = 0; i<3; ++i)
+                            {
+                                asteroids.list.push(Asteroids.objects.Asteroid(aster.generation+1));
+                                asteroids.list[asteroids.list.length-1].posX = aster.posX;
+                                asteroids.list[asteroids.list.length-1].posY = aster.posY;
+                                
+                            }
+                            
+                            
+                            asteroids.list.splice(a, 1);
+                        }
+                        else if(aster.generation === 2)
+                        {
+                            for(var i = 0; i<4; ++i)
+                            {
+                                asteroids.list.push(Asteroids.objects.Asteroid(aster.generation+1));
+                                asteroids.list[asteroids.list.length-1].posX = aster.posX;
+                                asteroids.list[asteroids.list.length-1].posY = aster.posY;
+                            }
+                            asteroids.list.splice(a, 1);
+                        }
+                        else
+                        {
+                            asteroids.list.splice(a, 1);
+                        }
+                        
+                    }
+                }
+                
+                if(hit)
+                {
+                    shotList.list.splice(s,1);
+                }
+            }
+            
+            //check bullets with ufo's
+            //check player with asteroids
+            //check player with ufo
+            //check player with ufo shots
             
         }
         
@@ -177,10 +239,10 @@ Asteroids.screens['game-play'] = (function() {
             }
         }
         function shotSpawn(gameObject){
-            console.log(shotList.list);
+            //console.log(shotList.list);
             //asteroids.list.push(Asteroids.objects.Asteroid(1));
             shotList.list.push(new Asteroids.objects.Shot(gameObject));
-            console.log(shotList.list[shotList.list.length-1].rotation);
+            //console.log(shotList.list[shotList.list.length-1].rotation);
             
         }
 	

@@ -36,6 +36,7 @@ Asteroids.objects = (function(){
         var that = {
             posX : Math.random(),
             posY : Math.random(),
+            generation : size,
             scale : 1/size,
             
             height : 50,
