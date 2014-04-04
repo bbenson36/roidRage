@@ -119,8 +119,8 @@ Asteroids.graphics = (function() {
                     spec.image, 
                     roid.posX - (roid.width/2)*roid.scale,
                     roid.posY - (roid.height/2)*roid.scale,
-                    spec.width*roid.scale, 
-                    spec.height*roid.scale
+                    roid.width*roid.scale, 
+                    roid.height*roid.scale
                     );
                 context.restore();
             };
