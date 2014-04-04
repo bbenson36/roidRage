@@ -16,9 +16,9 @@ Asteroids.movement = (function(){
 		};
 		
 		//this will need to make a physics call
-		that.booster = function(gamebject,elapsedTime){
-                    
-                        physics.accelerate(gamebject, elapsedTime);
+		that.booster = function(gameobject,elapsedTime){
+			physics.accelerate(gameobject, elapsedTime);
+            gameobject.isBoosting = true;
 			//console.log("boost!");
 		};
 		

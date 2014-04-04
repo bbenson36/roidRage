@@ -7,16 +7,17 @@ Asteroids.screens['game-play'] = (function() {
 		cancelNextRequest = false,
 		moveShip = Asteroids.movement.ShipMovement(),
 		myShip = Asteroids.objects.Ship(),
-                asteroids = Asteroids.objects.AsteroidList(),
-                shotList = Asteroids.objects.ShotList(),
+        asteroids = Asteroids.objects.AsteroidList(),
+        shotList = Asteroids.objects.ShotList(),
 		myDrawnBackground = undefined,
 		mySpaceShip = undefined,
-                roids = undefined,
-                shot = undefined,
-                shooting = false,
+        roids = undefined,
+        shot = undefined,
+        shooting = false,
 		lastTimeStamp = performance.now(),
-		particlesMoney = undefined,
-                lastShot = 1;
+		thrusterParticles = undefined,
+		thrusterCount = 0,
+        lastShot = 1;
                 
                 
             var toSpawn = 1;
@@ -26,7 +27,14 @@ Asteroids.screens['game-play'] = (function() {
 		//
 		// Have to wait until here to create the texture, because the images aren't
 		// loaded and ready until this point.
-		
+		thrusterParticles = Asteroids.particleSystem ({
+			image : Asteroids.images['images/thruster.png'],
+			center: {x: 0, y: 0},
+			speed: {mean: 100, stdev: 25},
+			lifetime: {mean: 1, stdev: .5}
+			},
+			Asteroids.graphics
+		);
 		
 		myDrawnBackground = Asteroids.graphics.BackgroundDraw({
 			image : Asteroids.images['images/background.png']
@@ -62,11 +70,6 @@ Asteroids.screens['game-play'] = (function() {
 		
 		
 		myMouse.registerCommand('mousedown',function(e){
-			if(myCoins.clicker(e.clientX,e.clientY)){
-				particleCount = 10;
-				particlesMoney.newPosition({x: e.clientX,
-					y: e.clientY});
-			}
 			});
 		//
 		// Create the keyboard input handler and register the keyboard commands
@@ -129,6 +132,25 @@ Asteroids.screens['game-play'] = (function() {
             physics.spin(asteroids.list[i], elapsedTime);
         }
         
+      //creating ship boost particles
+        if(myShip.isBoosting){
+        	thrusterCount +=3;
+        	myShip.isBoosting = false;
+        }
+        thrusterParticles.newPosition({
+        		x: myShip.posX*900, 
+        		y: myShip.posY*600
+        		});
+        thrusterParticles.newDirection(myShip.rotation);
+        //essentially this creates 3 particles every loop
+        if(thrusterCount > 0){
+        	thrusterParticles.create();
+        	thrusterParticles.create();
+        	thrusterParticles.create();
+        	thrusterCount-=3;
+        }
+        
+        thrusterParticles.update(elapsedTime/1000);
         
         for (var i = 0; i < shotList.list.length; i++)
                 { 
@@ -147,6 +169,7 @@ Asteroids.screens['game-play'] = (function() {
 	function render(elapsedTime){
 		Asteroids.graphics.clear();
 		myDrawnBackground.draw();
+		thrusterParticles.render();
 		mySpaceShip.draw(myShip);
                 
                 for (var i = 0; i < asteroids.list.length; i++)

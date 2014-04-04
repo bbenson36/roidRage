@@ -7,7 +7,7 @@ Asteroids.objects = (function(){
             
             height : 30,
             width : 30,
-
+            isBoosing : false,
             velocity : {
                 x : 0,
                 y : 0

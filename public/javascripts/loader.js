@@ -25,6 +25,7 @@ window.addEventListener('load', function() {
 			    //images
 			    'preload!images/background.png',
 			    'preload!images/ship.png',
+			    'preload!images/thruster.png',
                             'preload!images/asteroid.png',
                             'preload!images/shot.png',
 			    //libs

@@ -12,8 +12,8 @@ var Random = (function() {
 		return Math.floor((Math.random() * range) + min);
 	}
 	
-	function nextCircleVector() {
-		var angle = Math.random() * 2 * Math.PI;
+	function nextCircleVector(direction) {
+		var angle = (Math.random()-0.5) +  direction;
 		return {
 			x: Math.cos(angle),
 			y: Math.sin(angle)
