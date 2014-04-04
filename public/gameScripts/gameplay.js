@@ -76,7 +76,7 @@ Asteroids.screens['game-play'] = (function() {
 		myKeyboard.registerCommand(KeyEvent.DOM_VK_W, function(){moveShip.booster(myShip,Asteroids.elapsedTime);});
                 
                 
-                myKeyboard.registerCommand(KeyEvent.DOM_VK_SPACE, function(){requestShot(myShip);});
+        myKeyboard.registerCommand(KeyEvent.DOM_VK_V, function(){requestShot(myShip);});
 		
 
 		myKeyboard.registerCommand(KeyEvent.DOM_VK_ESCAPE, function() {
@@ -108,31 +108,31 @@ Asteroids.screens['game-play'] = (function() {
 	
 	function update(elapsedTime){
             
-            lastShot += elapsedTime;
+        lastShot += elapsedTime;
 		myKeyboard.update();
-                physics.drift(myShip,elapsedTime);
-                physics.wrapAround(myShip);
-                
-                for (var i = 0; i < asteroids.length; i++)
-                { 
-                    physics.drift(asteroids[i],elapsedTime);
-                    physics.wrapAround(asteroids[i]);
-                    physics.spin(asteroids[i], elapsedTime);
-                }
-                
-                
-                for (var i = 0; i < shotList.length; i++)
-                { 
-                    physics.drift(shotList[i],elapsedTime);
-                    physics.wrapAround(shotList[i]);
-                    physics.spin(shotList[i], elapsedTime);
-                    
-                    shotList[i].age += elapsedTime;
-                    if(shotList[i].age > 2500)
-                    {
-                        shotList.shift();
-                    }
-                }
+        physics.drift(myShip,elapsedTime);
+        physics.wrapAround(myShip);
+        
+        for (var i = 0; i < asteroids.length; i++)
+        { 
+            physics.drift(asteroids[i],elapsedTime);
+            physics.wrapAround(asteroids[i]);
+            physics.spin(asteroids[i], elapsedTime);
+        }
+        
+        
+        for (var i = 0; i < shotList.length; i++)
+        { 
+            physics.drift(shotList[i],elapsedTime);
+            physics.wrapAround(shotList[i]);
+            //physics.spin(shotList[i], elapsedTime);
+            
+            shotList[i].age += elapsedTime;
+            if(shotList[i].age > 2500)
+            {
+                shotList.shift();
+            }
+        }
                 
 		
 	}

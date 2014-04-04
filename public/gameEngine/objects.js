@@ -51,7 +51,7 @@ Asteroids.objects = (function(){
         
         
     function Shot(ship){
-                var that = {
+            var that = {
             posX : ship.posX,
             posY : ship.posY,
 
@@ -60,7 +60,7 @@ Asteroids.objects = (function(){
                 y : Math.sin(ship.rotation)
             },
             
-            rotation : ship.rotation,
+            rotation : ship.rotation + Math.PI/2,
             
             age : 0,
             
