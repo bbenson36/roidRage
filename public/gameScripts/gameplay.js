@@ -9,6 +9,7 @@ Asteroids.screens['game-play'] = (function() {
 		myShip = Asteroids.objects.Ship(),
         asteroids = Asteroids.objects.AsteroidList(),
         shotList = Asteroids.objects.ShotList(),
+        collisions = Asteroids.collision.CollisionDetection(),
 		myDrawnBackground = undefined,
 		mySpaceShip = undefined,
         roids = undefined,
@@ -24,6 +25,10 @@ Asteroids.screens['game-play'] = (function() {
 	
 	function initialize() {
 		console.log('game initializing...');
+		
+		myShip.posX = 0.5 * Asteroids.size.width;
+		myShip.posY = 0.5 * Asteroids.size.height;
+		
 		//
 		// Have to wait until here to create the texture, because the images aren't
 		// loaded and ready until this point.
@@ -110,7 +115,7 @@ Asteroids.screens['game-play'] = (function() {
 		Asteroids.lastTimeStamp = time;
 		update(Asteroids.elapsedTime);
 		render(Asteroids.elapsedTime);
-                collide();
+        
 		if(!cancelNextRequest){
 			requestAnimationFrame(gameLoop);
 		}
@@ -132,14 +137,15 @@ Asteroids.screens['game-play'] = (function() {
             physics.spin(asteroids.list[i], elapsedTime);
         }
         
+        
       //creating ship boost particles
         if(myShip.isBoosting){
         	thrusterCount +=3;
         	myShip.isBoosting = false;
         }
         thrusterParticles.newPosition({
-        		x: myShip.posX*900, 
-        		y: myShip.posY*600
+        		x: myShip.posX, 
+        		y: myShip.posY
         		});
         thrusterParticles.newDirection(myShip.rotation);
         //essentially this creates 3 particles every loop
@@ -152,18 +158,19 @@ Asteroids.screens['game-play'] = (function() {
         
         thrusterParticles.update(elapsedTime/1000);
         
-        for (var i = 0; i < shotList.list.length; i++)
-                { 
-                    physics.drift(shotList.list[i],elapsedTime);
-                    physics.wrapAround(shotList.list[i]);
+        for (var i = 0; i < shotList.list.length; i++){ 
+            physics.drift(shotList.list[i],elapsedTime);
+            physics.wrapAround(shotList.list[i]);
 
-                    shotList.list[i].age += elapsedTime;
-                    if(shotList.list[i].age > 2500)
-                    {
-                        shotList.list.shift();
-                    }
-                }
+            shotList.list[i].age += elapsedTime;
+
+         }
 		
+        //check for collisons now that everything has been moved
+        collisions.handleCollisions(myShip, asteroids);
+        collisions.handleCollisions(shotList, asteroids);
+        shotList.removeDead();
+        asteroids.handleHits();
 	}
 	
 	function render(elapsedTime){
@@ -172,85 +179,20 @@ Asteroids.screens['game-play'] = (function() {
 		thrusterParticles.render();
 		mySpaceShip.draw(myShip);
                 
-                for (var i = 0; i < asteroids.list.length; i++)
-                { 
-                    roids.draw(asteroids.list[i]);
-                }
-                if(typeof shotList.list !== 'undefined')
-                {
-                    for (var i = 0; i < shotList.list.length; i++)
-                    { 
-                        shot.draw(shotList.list[i]);
-                    }
-                }
+        for (var i = 0; i < asteroids.list.length; i++)
+        { 
+            roids.draw(asteroids.list[i]);
+        }
+        if(typeof shotList.list !== 'undefined')
+        {
+            for (var i = 0; i < shotList.list.length; i++)
+            { 
+                shot.draw(shotList.list[i]);
+            }
+        }
 	}
         
-        function collide (){
-            
-            //check bullets with asteroids
-            for(var s = 0; s < shotList.list.length; ++s)
-            {
-                var shot = shotList.list[s];
-                var xOfShot = (shot.posX*Math.cos(shot.rotation))+shot.height/2;
-                var yOfShot = (shot.posY*Math.sin(shot.rotation))+shot.width/2;
-                //console.log("shot #:" + s);
-                for(var a = 0; a < asteroids.list.length; ++a)
-                {
-                    var aster = asteroids.list[a];
-                    var hit = false;
-                    
-                    
-                    //console.log("point of shot: "+shot.posX+shot.height/2)*Math.cos(shot.rotation);
-                    if(xOfShot < ((aster.posX*Math.cos(aster.rotation))+aster.height/2) 
-                        && xOfShot > (aster.posX*Math.cos(aster.rotation)-aster.height/2)
-                        && yOfShot < (aster.posY*Math.sin(aster.rotation)+aster.width/2)
-                        && yOfShot > (aster.posY*Math.sin(aster.rotation)-aster.width/2))
-                    {
-                        console.log("HIT");
-                        hit = true;
-                        if(aster.generation === 1)
-                        {
-                            for(var i = 0; i<3; ++i)
-                            {
-                                asteroids.list.push(Asteroids.objects.Asteroid(aster.generation+1));
-                                asteroids.list[asteroids.list.length-1].posX = aster.posX;
-                                asteroids.list[asteroids.list.length-1].posY = aster.posY;
-                                
-                            }
-                            
-                            
-                            asteroids.list.splice(a, 1);
-                        }
-                        else if(aster.generation === 2)
-                        {
-                            for(var i = 0; i<4; ++i)
-                            {
-                                asteroids.list.push(Asteroids.objects.Asteroid(aster.generation+1));
-                                asteroids.list[asteroids.list.length-1].posX = aster.posX;
-                                asteroids.list[asteroids.list.length-1].posY = aster.posY;
-                            }
-                            asteroids.list.splice(a, 1);
-                        }
-                        else
-                        {
-                            asteroids.list.splice(a, 1);
-                        }
-                        
-                    }
-                }
-                
-                if(hit)
-                {
-                    shotList.list.splice(s,1);
-                }
-            }
-            
-            //check bullets with ufo's
-            //check player with asteroids
-            //check player with ufo
-            //check player with ufo shots
-            
-        }
+        
         
         
         function requestShot(gameObject)

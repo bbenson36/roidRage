@@ -3,6 +3,7 @@ var Asteroids = {
 	screens : {},
 	score : 0,
 	elapsedTime : 0,
+	size : {width : 900, height : 900},
 
 	status : {
 		preloadRequest : 0,
@@ -26,8 +27,8 @@ window.addEventListener('load', function() {
 			    'preload!images/background.png',
 			    'preload!images/ship.png',
 			    'preload!images/thruster.png',
-                            'preload!images/asteroid.png',
-                            'preload!images/shot.png',
+                'preload!images/asteroid.png',
+                'preload!images/shot.png',
 			    //libs
 			    'preload!libs/physics.js',
 			    'preload!libs/random.js',

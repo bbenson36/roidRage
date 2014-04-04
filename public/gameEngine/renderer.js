@@ -58,17 +58,19 @@ Asteroids.graphics = (function() {
 			
 			context.save();
 			
-			context.translate(ship.posX*canvas.width, ship.posY*canvas.height);
+			context.translate(ship.posX, ship.posY);
 			context.rotate(ship.rotation);
-			context.translate(-ship.posX*canvas.width, -ship.posY*canvas.height);
+			context.translate(-ship.posX, -ship.posY);
 			
 			context.drawImage(
 					spec.image, 
-					ship.posX*canvas.width - (ship.width/2),
-					ship.posY*canvas.height - (ship.height/2),
+					ship.posX - (ship.width/2),
+					ship.posY - (ship.height/2),
 					ship.width, 
 					ship.height
 					);
+			
+			
 			context.restore();
 		};
 		
@@ -83,16 +85,16 @@ Asteroids.graphics = (function() {
 			
 			context.save();
 			
-			context.translate(shot.posX*canvas.width, shot.posY*canvas.height);
+			context.translate(shot.posX, shot.posY);
 			context.rotate(shot.rotation);
-			context.translate(-shot.posX*canvas.width, -shot.posY*canvas.height);
+			context.translate(-shot.posX, -shot.posY);
 			
 			context.drawImage(
 					spec.image, 
-					shot.posX*canvas.width - (shot.width/2),
-					shot.posY*canvas.height - (shot.height/2),
+					shot.posX - (shot.width/2),
+					shot.posY - (shot.height/2),
 					shot.width,
-                                        shot.height
+                    shot.height
 					);
 			context.restore();
 		};
@@ -109,14 +111,14 @@ Asteroids.graphics = (function() {
 
                 context.save();
 
-                context.translate(roid.posX*canvas.width, roid.posY*canvas.height);
+                context.translate(roid.posX, roid.posY);
                 context.rotate(roid.rotation);
-                context.translate(-roid.posX*canvas.width, -roid.posY*canvas.height);
+                context.translate(-roid.posX, -roid.posY);
 
                 context.drawImage(
                     spec.image, 
-                    roid.posX*canvas.width - (roid.width/2)*roid.scale,
-                    roid.posY*canvas.height - (roid.height/2)*roid.scale,
+                    roid.posX - (roid.width/2)*roid.scale,
+                    roid.posY - (roid.height/2)*roid.scale,
                     spec.width*roid.scale, 
                     spec.height*roid.scale
                     );
@@ -130,8 +132,8 @@ Asteroids.graphics = (function() {
 		var that = {};
 		
 		that.draw = function(){
-			canvas.width  = 900;//window.innerWidth;
-			canvas.height = 600;//window.innerHeight;
+			canvas.width  = Asteroids.size.width;//window.innerWidth;
+			canvas.height = Asteroids.size.height;//window.innerHeight;
 			
 			context.drawImage(
 					spec.image, 

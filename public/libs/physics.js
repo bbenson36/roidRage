@@ -41,28 +41,28 @@ var physics = (function() {
 	
         function drift(gameObject, time)
         {
-            gameObject.posX -= gameObject.velocity.x * (time/1000);
-            gameObject.posY -= gameObject.velocity.y *time/1000;
+            gameObject.posX -= gameObject.velocity.x*Asteroids.size.height * (time/1000);
+            gameObject.posY -= gameObject.velocity.y*Asteroids.size.width *time/1000;
         }
         
         function wrapAround(gameObject)
         {
-            if(gameObject.posX > 1)
+            if(gameObject.posX > Asteroids.size.width)
             {
-                gameObject.posX -= 1;
+                gameObject.posX -= Asteroids.size.width;
             }
             else if(gameObject.posX < 0)
             {
-                gameObject.posX += 1;
+                gameObject.posX += Asteroids.size.width;
             }
 
-            if(gameObject.posY > 1)
+            if(gameObject.posY > Asteroids.size.height)
             {
-                gameObject.posY -= 1;
+                gameObject.posY -= Asteroids.size.height;
             }
             else if(gameObject.posY < 0)
             {
-                gameObject.posY += 1;
+                gameObject.posY += Asteroids.size.height;
             }
         }
         
