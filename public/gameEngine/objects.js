@@ -103,7 +103,7 @@ Asteroids.objects = (function(){
         that.removeDead = function(){
         	var i;
         	for(i = 0; i<that.list.length; i+=1){
-	        	if(that.list[i].age > 2500){
+	        	if(that.list[i].age > 1000){
 	                that.list.shift();
 	            }
 	        	else if(that.list[i].die){
