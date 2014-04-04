@@ -178,8 +178,10 @@ Asteroids.screens['game-play'] = (function() {
                     
                     
                     //console.log("point of shot: "+shot.posX+shot.height/2)*Math.cos(shot.rotation);
-                    if(xOfShot > (aster.posX+aster.height/2) && xOfShot < (aster.posX-aster.height/2)
-                        && yOfShot >(aster.posY+aster.width/2) && yOfShot < (aster.posY-aster.width/2))
+                    if(xOfShot < ((aster.posX*Math.cos(aster.rotation))+aster.height/2) 
+                        && xOfShot > (aster.posX*Math.cos(aster.rotation)-aster.height/2)
+                        && yOfShot < (aster.posY*Math.sin(aster.rotation)+aster.width/2)
+                        && yOfShot > (aster.posY*Math.sin(aster.rotation)-aster.width/2))
                     {
                         console.log("HIT");
                         hit = true;
