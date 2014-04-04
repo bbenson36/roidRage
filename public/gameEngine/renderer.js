@@ -49,10 +49,10 @@ Asteroids.graphics = (function() {
 			
 			context.drawImage(
 					spec.image, 
-					ship.posX*canvas.width - (spec.width/2),
-					ship.posY*canvas.height - (spec.height/2),
-					spec.width, 
-					spec.height
+					ship.posX*canvas.width - (ship.width/2),
+					ship.posY*canvas.height - (ship.height/2),
+					ship.width, 
+					ship.height
 					);
 			context.restore();
 		};
@@ -74,10 +74,10 @@ Asteroids.graphics = (function() {
 			
 			context.drawImage(
 					spec.image, 
-					shot.posX*canvas.width - (spec.width/2),
-					shot.posY*canvas.height - (spec.height/2),
-					spec.width, 
-					spec.height
+					shot.posX*canvas.width - (shot.width/2),
+					shot.posY*canvas.height - (shot.height/2),
+					shot.width,
+                                        shot.height
 					);
 			context.restore();
 		};
@@ -100,8 +100,8 @@ Asteroids.graphics = (function() {
 
                 context.drawImage(
                     spec.image, 
-                    roid.posX*canvas.width - (spec.width/2)*roid.scale,
-                    roid.posY*canvas.height - (spec.height/2)*roid.scale,
+                    roid.posX*canvas.width - (roid.width/2)*roid.scale,
+                    roid.posY*canvas.height - (roid.height/2)*roid.scale,
                     spec.width*roid.scale, 
                     spec.height*roid.scale
                     );

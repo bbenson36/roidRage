@@ -4,6 +4,9 @@ Asteroids.objects = (function(){
         var that = {
             posX : 0.5,
             posY : 0.5,
+            
+            height : 30,
+            width : 30,
 
             velocity : {
                 x : 0,
@@ -34,6 +37,9 @@ Asteroids.objects = (function(){
             posX : Math.random(),
             posY : Math.random(),
             scale : 1/size,
+            
+            height : 50,
+            width : 50,
 
             velocity : {
                 x : Random.nextGaussian(0,0.05),
@@ -79,6 +85,9 @@ Asteroids.objects = (function(){
         var that = {
             posX : ship.posX,
             posY : ship.posY,
+            
+            height : 50,
+            width : 50,
 
             velocity : {
                 x : Math.cos(ship.rotation),
