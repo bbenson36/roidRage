@@ -129,19 +129,16 @@ Asteroids.screens['game-play'] = (function() {
                 }
                 
                 
-                if(typeof shotList.list !== 'undefined')
-                {
-                    for (var i = 0; i < shotList.list.length; i++)
-                    { 
-                        physics.drift(shotList.list[i],elapsedTime);
-                        physics.wrapAround(shotList.list[i]);
-                        physics.spin(shotList.list[i], elapsedTime);
+                
+                for (var i = 0; i < shotList.list.length; i++)
+                { 
+                    physics.drift(shotList.list[i],elapsedTime);
+                    physics.wrapAround(shotList.list[i]);
 
-                        shotList.list[i].age += elapsedTime;
-                        if(shotList.list[i].age > 2500)
-                        {
-                            shotList.list.shift();
-                        }
+                    shotList.list[i].age += elapsedTime;
+                    if(shotList.list[i].age > 2500)
+                    {
+                        shotList.list.shift();
                     }
                 }
 		
@@ -160,7 +157,6 @@ Asteroids.screens['game-play'] = (function() {
                 {
                     for (var i = 0; i < shotList.list.length; i++)
                     { 
-                        console.log(shotList.list[i]);
                         shot.draw(shotList.list[i]);
                     }
                 }
@@ -185,7 +181,7 @@ Asteroids.screens['game-play'] = (function() {
             console.log(shotList.list);
             //asteroids.list.push(Asteroids.objects.Asteroid(1));
             shotList.list.push(new Asteroids.objects.Shot(gameObject));
-            console.log(shotList[shotList.list.length-1].rotation);
+            console.log(shotList.list[shotList.list.length-1].rotation);
             
         }
 	

@@ -84,7 +84,7 @@ Asteroids.objects = (function(){
                 y : Math.sin(ship.rotation)
             },
             
-            rotation : ship.rotation,
+            rotation : ship.rotation+(Math.PI/2),
             
             age : 0,
             
