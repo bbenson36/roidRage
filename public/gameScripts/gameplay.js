@@ -84,7 +84,7 @@ Asteroids.screens['game-play'] = (function() {
 		myKeyboard.registerCommand(KeyEvent.DOM_VK_W, function(){moveShip.booster(myShip,Asteroids.elapsedTime);});
                 
                 
-        myKeyboard.registerCommand(KeyEvent.DOM_VK_V, function(){requestShot(myShip);});
+                myKeyboard.registerCommand(KeyEvent.DOM_VK_V, function(){requestShot(myShip);});
 		
 
 		myKeyboard.registerCommand(KeyEvent.DOM_VK_ESCAPE, function() {
@@ -121,26 +121,25 @@ Asteroids.screens['game-play'] = (function() {
         physics.drift(myShip,elapsedTime);
         physics.wrapAround(myShip);
         
-        for (var i = 0; i < asteroids.length; i++)
+        for (var i = 0; i < asteroids.list.length; i++)
         { 
-            physics.drift(asteroids[i],elapsedTime);
-            physics.wrapAround(asteroids[i]);
-            physics.spin(asteroids[i], elapsedTime);
+            physics.drift(asteroids.list[i],elapsedTime);
+            physics.wrapAround(asteroids.list[i]);
+            physics.spin(asteroids.list[i], elapsedTime);
         }
         
         
-        for (var i = 0; i < shotList.length; i++)
-        { 
-            physics.drift(shotList[i],elapsedTime);
-            physics.wrapAround(shotList[i]);
-            //physics.spin(shotList[i], elapsedTime);
-            
-            shotList[i].age += elapsedTime;
-            if(shotList[i].age > 2500)
-            {
-                shotList.shift();
-            }
-        }
+        for (var i = 0; i < shotList.list.length; i++)
+                { 
+                    physics.drift(shotList.list[i],elapsedTime);
+                    physics.wrapAround(shotList.list[i]);
+
+                    shotList.list[i].age += elapsedTime;
+                    if(shotList.list[i].age > 2500)
+                    {
+                        shotList.list.shift();
+                    }
+                }
 		
 	}
 	
