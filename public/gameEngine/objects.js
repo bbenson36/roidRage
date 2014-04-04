@@ -39,8 +39,8 @@ Asteroids.objects = (function(){
             generation : size,
             scale : 1/size,
             
-            height : 50,
-            width : 50,
+            height : 75,
+            width : 75,
 
             velocity : {
                 x : Random.nextGaussian(0,0.06),
@@ -103,7 +103,7 @@ Asteroids.objects = (function(){
         that.removeDead = function(){
         	var i;
         	for(i = 0; i<that.list.length; i+=1){
-	        	if(that.list[i].age > 1000){
+	        	if(that.list[i].age > 500){
 	                that.list.shift();
 	            }
 	        	else if(that.list[i].die){
