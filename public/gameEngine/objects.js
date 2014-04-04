@@ -130,8 +130,8 @@ Asteroids.objects = (function(){
             posX : ship.posX,
             posY : ship.posY,
             
-            height : 50,
-            width : 50,
+            height : 20,
+            width : 20,
 
             velocity : {
                 x : Math.cos(ship.rotation),
