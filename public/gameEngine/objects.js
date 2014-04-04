@@ -49,9 +49,33 @@ Asteroids.objects = (function(){
         return that;
 	}
         
+    function AsteroidList(){
+        var that = {
+            list : []
+        };
+        
+        return that;
+    }
+    
+    function ShotList(){
+        var that = {
+            list : []
+        };
+        
+        return that;
+    }
+    
+    function UFOList(){
+        var that = {
+            list : []
+        };
+        
+        return that;
+    }
+        
         
     function Shot(ship){
-                var that = {
+        var that = {
             posX : ship.posX,
             posY : ship.posY,
 
@@ -74,7 +98,10 @@ Asteroids.objects = (function(){
 		Ship : Ship,
 		UFO : UFO,
 		Asteroid : Asteroid,
-                Shot : Shot
+                Shot : Shot,
+                AsteroidList : AsteroidList,
+                ShotList : ShotList,
+                UFOList : UFOList
 	};
 	
 }());
