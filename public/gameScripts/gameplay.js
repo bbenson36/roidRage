@@ -2,32 +2,32 @@ Asteroids.screens['game-play'] = (function() {
 	'use strict';
 	
 	var mouseCapture = false,
-		myMouse = Asteroids.input.Mouse(),
-		myKeyboard = Asteroids.input.Keyboard(),
-		cancelNextRequest = false,
-		moveShip = Asteroids.movement.ShipMovement(),
-		myShip = Asteroids.objects.Ship(),
-		smallUFO = Asteroids.objects.UFOSmall(),
-		bigUFO = Asteroids.objects.UFOBig(),
-        asteroids = Asteroids.objects.AsteroidList(),
-        shotList = Asteroids.objects.ShotList(),
-        collisions = Asteroids.collision.CollisionDetection(),
-		myDrawnBackground = undefined,
-		mySpaceShip = undefined,
-		myDrawnBigUFO = undefined,
-		myDrawnSmallUFO = undefined,
-        roids = undefined,
-        shot = undefined,
-        shooting = false,
-		lastTimeStamp = performance.now(),
-		thrusterParticles1 = undefined,
-		asterParticles1 = undefined,
-		shipBoomParticles1 = undefined,
-		thrusterParticles2 = undefined,
-		asterParticles2 = undefined,
-		shipBoomParticles2 = undefined,
-		thrusterCount = 0,
-        lastShot = 1;
+            myMouse = Asteroids.input.Mouse(),
+            myKeyboard = Asteroids.input.Keyboard(),
+            cancelNextRequest = false,
+            moveShip = Asteroids.movement.ShipMovement(),
+            myShip = Asteroids.objects.Ship(),
+            smallUFO = Asteroids.objects.UFOSmall(),
+            bigUFO = Asteroids.objects.UFOBig(),
+            asteroids = Asteroids.objects.AsteroidList(),
+            shotList = Asteroids.objects.ShotList(),
+            collisions = Asteroids.collision.CollisionDetection(),
+            myDrawnBackground = undefined,
+            mySpaceShip = undefined,
+            myDrawnBigUFO = undefined,
+            myDrawnSmallUFO = undefined,
+            roids = undefined,
+            shot = undefined,
+            shooting = false,
+            lastTimeStamp = performance.now(),
+            thrusterParticles1 = undefined,
+            asterParticles1 = undefined,
+            shipBoomParticles1 = undefined,
+            thrusterParticles2 = undefined,
+            asterParticles2 = undefined,
+            shipBoomParticles2 = undefined,
+            thrusterCount = 0,
+            lastShot = 1;
                 
                 
             var toSpawn = 4;
@@ -40,7 +40,7 @@ Asteroids.screens['game-play'] = (function() {
 		
 		//thruster flame
 		thrusterParticles1 = Asteroids.particleSystem ({
-			image : Asteroids.images['images/thrusterParticles1.png'],
+			image : Asteroids.images['images/thrusterSmoke.png'],
 			center: {x: 0, y: 0},
 			sizeMed: 3,
 			sizeStd: 1,
@@ -54,7 +54,7 @@ Asteroids.screens['game-play'] = (function() {
 		
 		//thruster smoke
 		thrusterParticles2 = Asteroids.particleSystem ({
-			image : Asteroids.images['images/thrusterParticles2.png'],
+			image : Asteroids.images['images/thrusterSpark.png'],
 			center: {x: 0, y: 0},
 			sizeMed: 3,
 			sizeStd: 1,
@@ -67,7 +67,7 @@ Asteroids.screens['game-play'] = (function() {
 		
 		//asteroid flame
 		asterParticles1 = Asteroids.particleSystem({
-			image : Asteroids.images['images/asterParticles1.png'],
+			image : Asteroids.images['images/asteroidSmoke.png'],
 			center: {x: 0, y: 0},
 			sizeMed: 3,
 			sizeStd: 1,
@@ -80,7 +80,7 @@ Asteroids.screens['game-play'] = (function() {
 		
 		//asteroid bits
 		asterParticles2 = Asteroids.particleSystem({
-			image : Asteroids.images['images/asterParticles2.png'],
+			image : Asteroids.images['images/asteroidSpark.png'],
 			center: {x: 0, y: 0},
 			sizeMed: 3,
 			sizeStd: 1,
@@ -92,7 +92,7 @@ Asteroids.screens['game-play'] = (function() {
 		
 		//ship flame
 		shipBoomParticles1 = Asteroids.particleSystem({
-			image : Asteroids.images['images/shipParticles1.png'],
+			image : Asteroids.images['images/explosionSmoke.png'],
 			center: {x: 0, y: 0},
 			sizeMed: 3,
 			sizeStd: 1,
@@ -103,7 +103,7 @@ Asteroids.screens['game-play'] = (function() {
 		shipBoomParticles1.count = 50;
 		//ship bits
 		shipBoomParticles2 = Asteroids.particleSystem({
-			image : Asteroids.images['images/shipParticles2.png'],
+			image : Asteroids.images['images/explosionSpark.png'],
 			center: {x: 0, y: 0},
 			sizeMed: 3,
 			sizeStd: 1,
@@ -133,11 +133,11 @@ Asteroids.screens['game-play'] = (function() {
 			width : myShip.width, height : myShip.height
 		});
                 
-        roids = Asteroids.graphics.RoidDraw({
+                roids = Asteroids.graphics.RoidDraw({
 			image : Asteroids.images['images/asteroid.png']
 		});
                 
-        shot = Asteroids.graphics.ShotDraw({
+                shot = Asteroids.graphics.ShotDraw({
 			image : Asteroids.images['images/shot.png']
 		});
                 
