@@ -41,6 +41,7 @@ Asteroids.objects = (function(){
 	
     
 	function UFOSmall(){
+		var smallAI = Asteroids.ai.UFOAI('small');
             var that = {
                 posX : 0,
                 posY : 0,
@@ -48,7 +49,22 @@ Asteroids.objects = (function(){
                 height : 50,
                 type : "ship"
             };
-        that.update = function(elapsedTime){
+        that.update = function(elapsedTime, ship){
+        	if(!that.initialized){
+        		that.posX = Math.round(Random.nextDouble());
+        		that.posY = Random.nextDouble() * Asteroids.size.height;
+        		that.velocity = {
+        			x : Random.nextGaussian(0,0.1),
+                    y : Random.nextGaussian(0,0.1)
+        		};
+        		that.initialized = true;
+        	}
+        	else{
+        		that.velocity = smallAI.nextVelocity(that.velocity, elapsedTime);
+        	}
+        	
+        	physics.drift(that,elapsedTime);
+        	physics.wrapAround(that);
         	
         };
 		
@@ -205,11 +221,18 @@ Asteroids.objects = (function(){
                 that.shotSpawn(gameObject);
                 that.lastShot = 0;
             }
-        }
+        };
         
-        that.update = function(time){
-        	that.lastShot += time;
-        }
+        that.update = function(elapsedTime){
+        	that.lastShot += elapsedTime;
+        	for (var i = 0; i < that.list.length; i++){ 
+                physics.drift(that.list[i],elapsedTime);
+                physics.wrapAround(that.list[i]);
+
+                that.list[i].age += elapsedTime;
+
+             }
+        };
         
         that.removeDead = function(){
         	var i;

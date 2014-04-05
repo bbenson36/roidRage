@@ -173,7 +173,7 @@ Asteroids.screens['game-play'] = (function() {
 		myKeyboard.registerCommand(KeyEvent.DOM_VK_W, function(){moveShip.booster(myShip,Asteroids.elapsedTime);});
                 
                 
-                myKeyboard.registerCommand(KeyEvent.DOM_VK_V, function(){requestShot(myShip);});
+       myKeyboard.registerCommand(KeyEvent.DOM_VK_V, function(){shotList.requestShot(myShip);});
 		
 
 		myKeyboard.registerCommand(KeyEvent.DOM_VK_ESCAPE, function() {
@@ -216,27 +216,26 @@ Asteroids.screens['game-play'] = (function() {
             physics.wrapAround(asteroids.list[i]);
             physics.spin(asteroids.list[i], elapsedTime);
         }
+        shotList.update(elapsedTime);
         
-        for (var i = 0; i < shotList.list.length; i++){ 
-            physics.drift(shotList.list[i],elapsedTime);
-            physics.wrapAround(shotList.list[i]);
-
-            shotList.list[i].age += elapsedTime;
-
-         }
         
         //just for now
         bigUFO.seen = true;
         if(bigUFO.seen){
-			bigUFO.update(elapsedTime);
+			bigUFO.update(elapsedTime,myShip);
 		}
-		
+        smallUFO.seen = true
+		if(smallUFO.seen){
+			smallUFO.update(elapsedTime,myShip);
+		}
+        
+        
         //check for collisons now that everything has been moved
         collisions.handleCollisions(myShip, asteroids);
         collisions.handleCollisions(shotList, asteroids);
         
         
-      //ship thruster particles
+        //ship thruster particles
         myShip.addParticles(thrusterParticles1);
         thrusterParticles1.update(elapsedTime/1000);
         myShip.addParticles(thrusterParticles2);
@@ -247,12 +246,22 @@ Asteroids.screens['game-play'] = (function() {
         asterParticles1.update(elapsedTime/1000);
         asteroids.addParticles(asterParticles2);
         asterParticles2.update(elapsedTime/1000);
-        //ship explosions?
-        //myShip.addParticles(thrusterParticles1);
-        //thrusterParticles1.update(elapsedTime/1000);
-        
-        
-        
+        //UFO particles
+        if(smallUFO.die){
+        	smallUFO.addParticles(shipBoomParticles1);
+        	shipBoomParticles1.update(elapsedTime/1000);
+        	smallUFO.addParticles(shipBoomParticles2);
+        	shipBoomParticles1.update(elapsedTime/1000);
+        	smallUFO.seen = false;
+        }
+        if(bigUFO.die){
+        	bigUFO.addParticles(shipBoomParticles1);
+        	bigBoomParticles1.update(elapsedTime/1000);
+        	bigUFO.addParticles(shipBoomParticles2);
+        	shipBoomParticles1.update(elapsedTime/1000);
+        	bigUFO.seen = false;
+        }
+
         shotList.removeDead();
         asteroids.handleHits();
 	}
@@ -265,6 +274,8 @@ Asteroids.screens['game-play'] = (function() {
 		thrusterParticles2.render();
 		asterParticles1.render();
 		asterParticles2.render();
+		shipBoomParticles1.render();
+		shipBoomParticles2.render();
 		if(bigUFO.seen){
 			myDrawnBigUFO.draw(bigUFO);
 		}
