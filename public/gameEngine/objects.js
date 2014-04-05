@@ -20,7 +20,7 @@ Asteroids.objects = (function(){
             type : "ship"
         };
         
-        that.addParticles(particleSystem){
+        that.addParticles = function(particleSystem){
         	var i;
         	//creating ship boost particles
             if(that.isBoosting){
@@ -71,7 +71,7 @@ Asteroids.objects = (function(){
             type : "roid"
         };
         
-        that.addParticles(particleSystem){
+        that.addParticles = function(particleSystem){
         	var i;
         	
         	particleSystem.newPosition({
@@ -103,7 +103,7 @@ Asteroids.objects = (function(){
             list : []
         };
         
-        that.addParticles(particleSystem){
+        that.addParticles = function(particleSystem){
         	var i;
         	for(i=0;i<that.list.length; i+=1){
         		if(that.list[i].die){

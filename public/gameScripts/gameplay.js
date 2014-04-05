@@ -98,7 +98,7 @@ Asteroids.screens['game-play'] = (function() {
 			Asteroids.graphics);
 		shipBoomParticles1.count = 50;
 		//ship bits
-		shipBoomParticles1 = Asteroids.particleSystem({
+		shipBoomParticles2 = Asteroids.particleSystem({
 			image : Asteroids.images['images/shipParticles2.png'],
 			center: {x: 0, y: 0},
 			sizeMed: 3,
