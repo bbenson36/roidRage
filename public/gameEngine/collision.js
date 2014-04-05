@@ -53,17 +53,8 @@ Asteroids.collision = (function(){
 			//This could be updated later if desired
 			var object1Radius = Math.max(object1.width,object1.height)/2,
 				object2Radius = Math.max(object2.width,object2.height)/2,
-				/*object1X = object1.posX*Math.cos(object1.rotation) + object1.width/2,
-				object1Y = object1.posY*Math.sin(object1.rotation) + object1.height/2,
-				object2X = object2.posX*Math.cos(object2.rotation) + object2.width/2,
-				object2Y = object2.posY*Math.sin(object2.rotation) + object2.height/2,
-				distance = Math.sqrt( Math.pow(object1X - object2X,2) + Math.pow(object1Y - object2Y,2));
-				*/
 				distance = Math.sqrt( Math.pow(object1.posX - object2.posX,2) + Math.pow(object1.posY - object2.posY,2));
 			if(distance < object1Radius + object2Radius){
-				console.log("hit!");
-				console.log(object1.type + " " + object2.type);
-				console.log("dist: " + distance);
 				return true;
 			}
 			else{

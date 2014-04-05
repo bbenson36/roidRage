@@ -72,7 +72,7 @@ Asteroids.screens['game-play'] = (function() {
 			sizeMed: 3,
 			sizeStd: 1,
 			speed: {mean: 100, stdev: 25},
-			lifetime: {mean: 1, stdev: .5}
+			lifetime: {mean: 3, stdev: 1.5}
 			},
 			Asteroids.graphics
 		);
@@ -85,7 +85,7 @@ Asteroids.screens['game-play'] = (function() {
 			sizeMed: 3,
 			sizeStd: 1,
 			speed: {mean: 100, stdev: 25},
-			lifetime: {mean: 1, stdev: .5}
+			lifetime: {mean: 3, stdev: 1.5}
 			},
 			Asteroids.graphics);
 		asterParticles2.count = 50;
@@ -100,7 +100,7 @@ Asteroids.screens['game-play'] = (function() {
 			lifetime: {mean: 3, stdev: .5}
 			},
 			Asteroids.graphics);
-		shipBoomParticles1.count = 150;
+		shipBoomParticles1.count = 50;
 		//ship bits
 		shipBoomParticles2 = Asteroids.particleSystem({
 			image : Asteroids.images['images/shipParticles2.png'],
@@ -111,7 +111,7 @@ Asteroids.screens['game-play'] = (function() {
 			lifetime: {mean: 3, stdev: .5}
 			},
 			Asteroids.graphics);
-		shipBoomParticles2.count = 150;
+		shipBoomParticles2.count = 50;
 		
 		
 		myDrawnBackground = Asteroids.graphics.BackgroundDraw({
