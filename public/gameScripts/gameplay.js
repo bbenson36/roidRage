@@ -7,6 +7,8 @@ Asteroids.screens['game-play'] = (function() {
 		cancelNextRequest = false,
 		moveShip = Asteroids.movement.ShipMovement(),
 		myShip = Asteroids.objects.Ship(),
+		smallUFO = Asteroids.objects.UFOSmall(),
+		bigUFO = Asteroids.objects.UFOBig(),
         asteroids = Asteroids.objects.AsteroidList(),
         shotList = Asteroids.objects.ShotList(),
         collisions = Asteroids.collision.CollisionDetection(),
@@ -93,10 +95,10 @@ Asteroids.screens['game-play'] = (function() {
 			sizeMed: 3,
 			sizeStd: 1,
 			speed: {mean: 100, stdev: 25},
-			lifetime: {mean: 1, stdev: .5}
+			lifetime: {mean: 3, stdev: .5}
 			},
 			Asteroids.graphics);
-		shipBoomParticles1.count = 50;
+		shipBoomParticles1.count = 150;
 		//ship bits
 		shipBoomParticles2 = Asteroids.particleSystem({
 			image : Asteroids.images['images/shipParticles2.png'],
@@ -104,14 +106,24 @@ Asteroids.screens['game-play'] = (function() {
 			sizeMed: 3,
 			sizeStd: 1,
 			speed: {mean: 100, stdev: 25},
-			lifetime: {mean: 1, stdev: .5}
+			lifetime: {mean: 3, stdev: .5}
 			},
 			Asteroids.graphics);
-		shipBoomParticles2.count = 50;
+		shipBoomParticles2.count = 150;
 		
 		
 		myDrawnBackground = Asteroids.graphics.BackgroundDraw({
 			image : Asteroids.images['images/background.png']
+		});
+		
+		myDrawnBigUFO = ASteroids.graphics.ShipDraw({
+			image : Asteroids.images['images/ufo.png'],
+			width : smallUFO.width, height : bigUFO.height
+		});
+		
+		myDrawnSmallUFO = Asteroids.graphics.ShipDraw({
+			image : Asteroids.images['images/ufo.png'],
+			width : smallUFO.width, height : smallUFO.height
 		});
 		
 		mySpaceShip = Asteroids.graphics.ShipDraw({
@@ -119,7 +131,7 @@ Asteroids.screens['game-play'] = (function() {
 			width : myShip.width, height : myShip.height
 		});
                 
-                roids = Asteroids.graphics.RoidDraw({
+        roids = Asteroids.graphics.RoidDraw({
 			image : Asteroids.images['images/asteroid.png'],
 			width : 50, height : 50
 		});
