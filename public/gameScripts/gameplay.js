@@ -16,7 +16,12 @@ Asteroids.screens['game-play'] = (function() {
         shot = undefined,
         shooting = false,
 		lastTimeStamp = performance.now(),
-		thrusterParticles = undefined,
+		thrusterParticles1 = undefined,
+		asterParticles1 = undefined,
+		shipBoomParticles1 = undefined,
+		thrusterParticles2 = undefined,
+		asterParticles2 = undefined,
+		shipBoomParticles2 = undefined,
 		thrusterCount = 0,
         lastShot = 1;
                 
@@ -29,17 +34,81 @@ Asteroids.screens['game-play'] = (function() {
 		myShip.posX = 0.5 * Asteroids.size.width;
 		myShip.posY = 0.5 * Asteroids.size.height;
 		
-		//
-		// Have to wait until here to create the texture, because the images aren't
-		// loaded and ready until this point.
-		thrusterParticles = Asteroids.particleSystem ({
-			image : Asteroids.images['images/thruster.png'],
+		//thruster flame
+		thrusterParticles1 = Asteroids.particleSystem ({
+			image : Asteroids.images['images/thrusterParticles1.png'],
 			center: {x: 0, y: 0},
+			sizeMed: 3,
+			sizeStd: 1,
 			speed: {mean: 100, stdev: 25},
 			lifetime: {mean: 1, stdev: .5}
 			},
 			Asteroids.graphics
 		);
+		//number to be generated per action event
+		thrusterParticles1.count = 5;
+		
+		//thruster smoke
+		thrusterParticles2 = Asteroids.particleSystem ({
+			image : Asteroids.images['images/thrusterParticles2.png'],
+			center: {x: 0, y: 0},
+			sizeMed: 3,
+			sizeStd: 1,
+			speed: {mean: 100, stdev: 25},
+			lifetime: {mean: 1, stdev: .5}
+			},
+			Asteroids.graphics
+		);
+		thrusterParticles2.count =5;
+		
+		//asteroid flame
+		asterParticles1 = Asteroids.particleSystem({
+			image : Asteroids.images['images/asterParticles1.png'],
+			center: {x: 0, y: 0},
+			sizeMed: 3,
+			sizeStd: 1,
+			speed: {mean: 100, stdev: 25},
+			lifetime: {mean: 1, stdev: .5}
+			},
+			Asteroids.graphics
+		);
+		asterParticles1.count = 50;
+		
+		//asteroid bits
+		asterParticles2 = Asteroids.particleSystem({
+			image : Asteroids.images['images/asterParticles2.png'],
+			center: {x: 0, y: 0},
+			sizeMed: 3,
+			sizeStd: 1,
+			speed: {mean: 100, stdev: 25},
+			lifetime: {mean: 1, stdev: .5}
+			},
+			Asteroids.graphics);
+		asterParticles2.count = 50;
+		
+		//ship flame
+		shipBoomParticles1 = Asteroids.particleSystem({
+			image : Asteroids.images['images/shipParticles1.png'],
+			center: {x: 0, y: 0},
+			sizeMed: 3,
+			sizeStd: 1,
+			speed: {mean: 100, stdev: 25},
+			lifetime: {mean: 1, stdev: .5}
+			},
+			Asteroids.graphics);
+		shipBoomParticles1.count = 50;
+		//ship bits
+		shipBoomParticles1 = Asteroids.particleSystem({
+			image : Asteroids.images['images/shipParticles2.png'],
+			center: {x: 0, y: 0},
+			sizeMed: 3,
+			sizeStd: 1,
+			speed: {mean: 100, stdev: 25},
+			lifetime: {mean: 1, stdev: .5}
+			},
+			Asteroids.graphics);
+		shipBoomParticles2.count = 50;
+		
 		
 		myDrawnBackground = Asteroids.graphics.BackgroundDraw({
 			image : Asteroids.images['images/background.png']
@@ -124,7 +193,7 @@ Asteroids.screens['game-play'] = (function() {
 
 	
 	function update(elapsedTime){
-            
+		
         lastShot += elapsedTime;
 		myKeyboard.update();
         physics.drift(myShip,elapsedTime);
@@ -137,27 +206,6 @@ Asteroids.screens['game-play'] = (function() {
             physics.spin(asteroids.list[i], elapsedTime);
         }
         
-        
-      //creating ship boost particles
-        if(myShip.isBoosting){
-        	thrusterCount +=3;
-        	myShip.isBoosting = false;
-        }
-        thrusterParticles.newPosition({
-        		x: myShip.posX, 
-        		y: myShip.posY
-        		});
-        thrusterParticles.newDirection(myShip.rotation);
-        //essentially this creates 3 particles every loop
-        if(thrusterCount > 0){
-        	thrusterParticles.create();
-        	thrusterParticles.create();
-        	thrusterParticles.create();
-        	thrusterCount-=3;
-        }
-        
-        thrusterParticles.update(elapsedTime/1000);
-        
         for (var i = 0; i < shotList.list.length; i++){ 
             physics.drift(shotList.list[i],elapsedTime);
             physics.wrapAround(shotList.list[i]);
@@ -169,6 +217,24 @@ Asteroids.screens['game-play'] = (function() {
         //check for collisons now that everything has been moved
         collisions.handleCollisions(myShip, asteroids);
         collisions.handleCollisions(shotList, asteroids);
+        
+        
+      //ship thruster particles
+        myShip.addParticles(thrusterParticles1);
+        thrusterParticles1.update(elapsedTime/1000);
+        myShip.addParticles(thrusterParticles2);
+        thrusterParticles2.update(elapsedTime/1000);
+        //asteroid particles
+        asteroids.addParticles(asterParticles1);
+        asterParticles1.update(elapsedTime/1000);
+        asteroids.addParticles(asterParticles2);
+        asterParticles2.update(elapsedTime/1000);
+        //ship explosions?
+        //myShip.addParticles(thrusterParticles1);
+        //thrusterParticles1.update(elapsedTime/1000);
+        
+        
+        
         shotList.removeDead();
         asteroids.handleHits();
 	}
@@ -176,7 +242,10 @@ Asteroids.screens['game-play'] = (function() {
 	function render(elapsedTime){
 		Asteroids.graphics.clear();
 		myDrawnBackground.draw();
-		thrusterParticles.render();
+		thrusterParticles1.render();
+		thrusterParticles2.render();
+		asterParticles1.render();
+		asterParticles2.render();
 		mySpaceShip.draw(myShip);
                 
         for (var i = 0; i < asteroids.list.length; i++)

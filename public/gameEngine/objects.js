@@ -19,7 +19,25 @@ Asteroids.objects = (function(){
             
             type : "ship"
         };
-	return that;
+        
+        that.addParticles(particleSystem){
+        	var i;
+        	//creating ship boost particles
+            if(that.isBoosting){
+            	particleSystem.newPosition({
+            		x: that.posX, 
+            		y: that.posY
+            		});
+	        	particleSystem.newDirection(that.rotation);
+	        	
+	        	for(i = 0;i<particleSystem.count;i+=1){
+	        		particleSystem.create();
+	        	}
+	        	that.isBoosting = false;
+            }
+       };
+        
+        return that;
 	}
 	
 	function UFO(){
@@ -53,6 +71,30 @@ Asteroids.objects = (function(){
             type : "roid"
         };
         
+        that.addParticles(particleSystem){
+        	var i;
+        	
+        	particleSystem.newPosition({
+        		x: that.posX, 
+        		y: that.posY
+        		});
+        	particleSystem.newDirection(that.rotation);
+        	//one direction
+        	for(i = 0;i<particleSystem.count;i+=1){
+        		particleSystem.create();
+        	}
+        	//second direction
+        	particleSystem.newDirection(that.rotation+Math.PI);
+        	for(i = 0;i<particleSystem.count;i+=1){
+        		particleSystem.create();
+        	}
+        	//third direction
+        	particleSystem.newDirection(that.rotation+Math.PI/2);
+        	for(i = 0;i<particleSystem.count;i+=1){
+        		particleSystem.create();
+        	}
+        };
+        
         return that;
 	}
         
@@ -61,6 +103,14 @@ Asteroids.objects = (function(){
             list : []
         };
         
+        that.addParticles(particleSystem){
+        	var i;
+        	for(i=0;i<that.list.length; i+=1){
+        		if(that.list[i].die){
+        			that.list[i].addParticles(particleSystem);
+        		}
+        	}
+        };
         
         that.handleHits = function(){
         	var i, j, newAsteroid;

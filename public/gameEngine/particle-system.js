@@ -21,7 +21,7 @@ Asteroids.particleSystem = function(spec, graphics) {
 	that.create = function() {
 		var p = {
 				image: spec.image,
-				size: Random.nextGaussian(3, 1),
+				size: Random.nextGaussian(spec.sizeMed, spec.sizeStd),
 				center: {x: spec.center.x, y: spec.center.y},
 				direction: Random.nextCircleVector(spec.direction),
 				speed: Random.nextGaussian(spec.speed.mean, spec.speed.stdev), // pixels per second

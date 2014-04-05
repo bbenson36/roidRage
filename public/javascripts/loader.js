@@ -26,8 +26,14 @@ window.addEventListener('load', function() {
 			    //images
 			    'preload!images/background.png',
 			    'preload!images/ship.png',
-			    'preload!images/thruster.png',
+			    'preload!images/thrusterParticles1.png',
+			    'preload!images/thrusterParticles2.png',
+			    'preload!images/asterParticles1.png',
+			    'preload!images/asterParticles2.png',
+			    'preload!images/shipBoomParticles1.png',
+			    'preload!images/shipBoomParticles2.png',
                 'preload!images/asteroid.png',
+                'preload!images/ufo.png',
                 'preload!images/shot.png',
 			    //libs
 			    'preload!libs/physics.js',
