@@ -38,7 +38,7 @@ Asteroids.screens['game-play'] = (function() {
 		myShip.posX = 0.5 * Asteroids.size.width;
 		myShip.posY = 0.5 * Asteroids.size.height;
 		
-		//thruster flame
+		//thruster smoke
 		thrusterParticles1 = Asteroids.particleSystem ({
 			image : Asteroids.images['images/thrusterSmoke.png'],
 			center: {x: 0, y: 0},
@@ -52,7 +52,7 @@ Asteroids.screens['game-play'] = (function() {
 		//number to be generated per action event
 		thrusterParticles1.count = 5;
 		
-		//thruster smoke
+		//thruster spark
 		thrusterParticles2 = Asteroids.particleSystem ({
 			image : Asteroids.images['images/thrusterSpark.png'],
 			center: {x: 0, y: 0},
@@ -65,7 +65,7 @@ Asteroids.screens['game-play'] = (function() {
 		);
 		thrusterParticles2.count =5;
 		
-		//asteroid flame
+		//asteroid smoke
 		asterParticles1 = Asteroids.particleSystem({
 			image : Asteroids.images['images/asteroidSmoke.png'],
 			center: {x: 0, y: 0},
@@ -78,7 +78,7 @@ Asteroids.screens['game-play'] = (function() {
 		);
 		asterParticles1.count = 50;
 		
-		//asteroid bits
+		//asteroid spark
 		asterParticles2 = Asteroids.particleSystem({
 			image : Asteroids.images['images/asteroidSpark.png'],
 			center: {x: 0, y: 0},
@@ -90,7 +90,7 @@ Asteroids.screens['game-play'] = (function() {
 			Asteroids.graphics);
 		asterParticles2.count = 50;
 		
-		//ship flame
+		//explosion smoke
 		shipBoomParticles1 = Asteroids.particleSystem({
 			image : Asteroids.images['images/explosionSmoke.png'],
 			center: {x: 0, y: 0},
@@ -101,7 +101,7 @@ Asteroids.screens['game-play'] = (function() {
 			},
 			Asteroids.graphics);
 		shipBoomParticles1.count = 50;
-		//ship bits
+		//ship spark
 		shipBoomParticles2 = Asteroids.particleSystem({
 			image : Asteroids.images['images/explosionSpark.png'],
 			center: {x: 0, y: 0},
@@ -241,6 +241,7 @@ Asteroids.screens['game-play'] = (function() {
         thrusterParticles1.update(elapsedTime/1000);
         myShip.addParticles(thrusterParticles2);
         thrusterParticles2.update(elapsedTime/1000);
+        myShip.isBoosting = false;
         //asteroid particles
         asteroids.addParticles(asterParticles1);
         asterParticles1.update(elapsedTime/1000);

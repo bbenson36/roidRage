@@ -33,7 +33,6 @@ Asteroids.objects = (function(){
 	        	for(i = 0;i<particleSystem.count;i+=1){
 	        		particleSystem.create();
 	        	}
-	        	that.isBoosting = false;
             }
        };
         
@@ -61,12 +60,28 @@ Asteroids.objects = (function(){
             posY : 0,
             width : 100,
             height : 100,
+            initialized : false,
             type : "ship"
         };
 		
 		 that.update = function(elapsedTime){
+	        	if(that.initialized){
+	        		that.posX = Math.round(Random.nextDouble());
+	        		that.posY = Random.nextDouble() * Asteroids.height;
+	        		that.velocity = {
+	        			x : Random.nextGaussian(0,0.06),
+	                    y : Random.nextGaussian(0,0.06)
+	        		};
+	        		that.initialized = true;
+	        	}
 	        	
-	        };
+	        	
+	        	
+	        	//physics.drift(that,elapsedTime);
+	        	//physics.wrapAround(that);
+	        	
+	        		
+	     };
 
         return that;
 		
