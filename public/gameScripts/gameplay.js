@@ -205,7 +205,6 @@ Asteroids.screens['game-play'] = (function() {
 
 	
 	function update(elapsedTime){
-		
         lastShot += elapsedTime;
 		myKeyboard.update();
         physics.drift(myShip,elapsedTime);
@@ -225,6 +224,12 @@ Asteroids.screens['game-play'] = (function() {
             shotList.list[i].age += elapsedTime;
 
          }
+        
+        //just for now
+        bigUFO.seen = true;
+        if(bigUFO.seen){
+			bigUFO.update(elapsedTime);
+		}
 		
         //check for collisons now that everything has been moved
         collisions.handleCollisions(myShip, asteroids);
@@ -252,6 +257,13 @@ Asteroids.screens['game-play'] = (function() {
 	}
 	
 	function render(elapsedTime){
+		if(bigUFO.seen){
+			myDrawnBigUFO.draw(bigUFO);
+		}
+		if(smallUFO.seen){
+			myDrawnSmallUFO.draw(smllUFO);
+		}
+		
 		Asteroids.graphics.clear();
 		myDrawnBackground.draw();
 		thrusterParticles1.render();
