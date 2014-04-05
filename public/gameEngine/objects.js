@@ -39,6 +39,7 @@ Asteroids.objects = (function(){
         return that;
 	}
 	
+    
 	function UFOSmall(){
             var that = {
                 posX : 0,
@@ -55,6 +56,7 @@ Asteroids.objects = (function(){
 	}
 	
 	function UFOBig(){
+		var bigAI = Asteroids.ai.UFOAI('big');
 		 var that = {
             posX : 0,
             posY : 0,
@@ -63,22 +65,23 @@ Asteroids.objects = (function(){
             initialized : false,
             type : "ship"
         };
-		
-		 that.update = function(elapsedTime){
-	        	if(that.initialized){
+		//we need the ship passed in so it knows where to shoot
+		 that.update = function(elapsedTime, ship){
+	        	if(!that.initialized){
 	        		that.posX = Math.round(Random.nextDouble());
-	        		that.posY = Random.nextDouble() * Asteroids.height;
+	        		that.posY = Random.nextDouble() * Asteroids.size.height;
 	        		that.velocity = {
 	        			x : Random.nextGaussian(0,0.06),
 	                    y : Random.nextGaussian(0,0.06)
 	        		};
 	        		that.initialized = true;
 	        	}
+	        	else{
+	        		that.velocity = bigAI.nextVelocity(that.velocity, elapsedTime);
+	        	}
 	        	
-	        	
-	        	
-	        	//physics.drift(that,elapsedTime);
-	        	//physics.wrapAround(that);
+	        	physics.drift(that,elapsedTime);
+	        	physics.wrapAround(that);
 	        	
 	        		
 	     };
@@ -188,8 +191,25 @@ Asteroids.objects = (function(){
     
     function ShotList(){
         var that = {
-            list : []
+            list : [],
+        	lastShot : 0
         };
+        
+        that.shotSpawn = function(gameObject){
+            that.list.push(new Asteroids.objects.Shot(gameObject));            
+        };
+        
+        that.requestShot = function(gameObject){
+            if(that.lastShot > 500)
+            {
+                that.shotSpawn(gameObject);
+                that.lastShot = 0;
+            }
+        }
+        
+        that.update = function(time){
+        	that.lastShot += time;
+        }
         
         that.removeDead = function(){
         	var i;

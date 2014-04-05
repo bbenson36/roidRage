@@ -258,19 +258,19 @@ Asteroids.screens['game-play'] = (function() {
 	}
 	
 	function render(elapsedTime){
-		if(bigUFO.seen){
-			myDrawnBigUFO.draw(bigUFO);
-		}
-		if(smallUFO.seen){
-			myDrawnSmallUFO.draw(smllUFO);
-		}
-		
+
 		Asteroids.graphics.clear();
 		myDrawnBackground.draw();
 		thrusterParticles1.render();
 		thrusterParticles2.render();
 		asterParticles1.render();
 		asterParticles2.render();
+		if(bigUFO.seen){
+			myDrawnBigUFO.draw(bigUFO);
+		}
+		if(smallUFO.seen){
+			myDrawnSmallUFO.draw(smallUFO);
+		}
 		mySpaceShip.draw(myShip);
                 
         for (var i = 0; i < asteroids.list.length; i++)
@@ -286,27 +286,6 @@ Asteroids.screens['game-play'] = (function() {
         }
 	}
         
-        
-        
-        
-        function requestShot(gameObject)
-        {
-            //console.log("requesting shot");
-            //console.log("time at request:" + time);
-            if(lastShot > 500)
-            {
-                shotSpawn(gameObject);
-                lastShot = 0;
-            }
-        }
-        function shotSpawn(gameObject){
-            //console.log(shotList.list);
-            //asteroids.list.push(Asteroids.objects.Asteroid(1));
-            shotList.list.push(new Asteroids.objects.Shot(gameObject));
-            //console.log(shotList.list[shotList.list.length-1].rotation);
-            
-        }
-	
 	function run() {
 		
 		
