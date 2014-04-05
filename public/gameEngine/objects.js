@@ -48,6 +48,9 @@ Asteroids.objects = (function(){
                 height : 50,
                 type : "ship"
             };
+        that.update = function(elapsedTime){
+        	
+        };
 		
         return that;
 	}
@@ -60,6 +63,10 @@ Asteroids.objects = (function(){
             height : 100,
             type : "ship"
         };
+		
+		 that.update = function(elapsedTime){
+	        	
+	        };
 
         return that;
 		
