@@ -14,6 +14,8 @@ Asteroids.screens['game-play'] = (function() {
         collisions = Asteroids.collision.CollisionDetection(),
 		myDrawnBackground = undefined,
 		mySpaceShip = undefined,
+		myDrawnBigUFO = undefined,
+		myDrawnSmallUFO = undefined,
         roids = undefined,
         shot = undefined,
         shooting = false,
@@ -116,7 +118,7 @@ Asteroids.screens['game-play'] = (function() {
 			image : Asteroids.images['images/background.png']
 		});
 		
-		myDrawnBigUFO = ASteroids.graphics.ShipDraw({
+		myDrawnBigUFO = Asteroids.graphics.ShipDraw({
 			image : Asteroids.images['images/ufo.png'],
 			width : smallUFO.width, height : bigUFO.height
 		});
@@ -132,13 +134,11 @@ Asteroids.screens['game-play'] = (function() {
 		});
                 
         roids = Asteroids.graphics.RoidDraw({
-			image : Asteroids.images['images/asteroid.png'],
-			width : 50, height : 50
+			image : Asteroids.images['images/asteroid.png']
 		});
                 
-                shot = Asteroids.graphics.ShotDraw({
-			image : Asteroids.images['images/shot.png'],
-			width : 50, height : 50
+        shot = Asteroids.graphics.ShotDraw({
+			image : Asteroids.images['images/shot.png']
 		});
                 
                 /*asteroids.push(Asteroids.objects.Asteroid(1));//takes the generation, after hit spawned will have a 2

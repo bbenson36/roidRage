@@ -137,6 +137,8 @@ Asteroids.objects = (function(){
                         	newAsteroid = new Asteroid(aster.generation+1);
                         	newAsteroid.posX = aster.posX;
                         	newAsteroid.posY = aster.posY;
+                        	newAsteroid.width = aster.width/2;
+                        	newAsteroid.height = aster.height/2;
                             that.list.push(newAsteroid);   
                         }
                         that.list.splice(i, 1);
@@ -146,6 +148,8 @@ Asteroids.objects = (function(){
                         	newAsteroid = new Asteroid(aster.generation+1);
                         	newAsteroid.posX = aster.posX;
                         	newAsteroid.posY = aster.posY;
+                        	newAsteroid.width = aster.width/2;
+                        	newAsteroid.height = aster.height/2;
                             that.list.push(newAsteroid); 
                         }
                         that.list.splice(i, 1);
@@ -210,10 +214,9 @@ Asteroids.objects = (function(){
 		UFOSmall : UFOSmall,
 		UFOBig : UFOBig,
 		Asteroid : Asteroid,
-                Shot : Shot,
-                AsteroidList : AsteroidList,
-                ShotList : ShotList,
-                UFOList : UFOList
+        Shot : Shot,
+        AsteroidList : AsteroidList,
+        ShotList : ShotList
 	};
 	
 }());

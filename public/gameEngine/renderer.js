@@ -117,10 +117,10 @@ Asteroids.graphics = (function() {
 
                 context.drawImage(
                     spec.image, 
-                    roid.posX - (roid.width/2)*roid.scale,
-                    roid.posY - (roid.height/2)*roid.scale,
-                    roid.width*roid.scale, 
-                    roid.height*roid.scale
+                    roid.posX - (roid.width/2),
+                    roid.posY - (roid.height/2),
+                    roid.width, 
+                    roid.height
                     );
                 context.restore();
             };
