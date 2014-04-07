@@ -1,13 +1,104 @@
 Asteroids.ai = (function(){
 	
-	function AI (){
+	function AI (ship,asteroids,bigUFO,smallUFO,ufoShots,collisions,movement){
 		var that = {
 				test : 0
 		};
 		
-		that.nextMove = function(){
+		that.initMove = function (elapsedTime){
+			movement.turnLeft(ship,elapsedTime);
+			movement.booster(ship,elapsedTime);
+		};
+		
+		that.nextMove = function(elapsedTime){
+			var ship2 = new Asteroids.objects.Ship(),
+			asteroids2 = new Asteroids.objects.AsteroidList(),
+			ufoShots2 = new Asteroids.objects.ShotList(),
+			bigUFO2 = new Asteroids.objects.UFOBig,
+			smallUFO2 = new Asteroids.objects.UFOsmall;
+			
+			//copy all objects for looking into the future
+			asteroids2.list = Array.apply(Array,asteroids);
+			ufoShots2.list = Array.apply(Array,ufoShots);
+			
+			ship2.posX = ship.pos;
+			ship2.posY = ship.posY;
+			ship2.rotation = ship.rotation;
+			ship2.timeToWarp = ship.timeToWarp;
+		    ship2.velocity = ship.velocity;
+		           	
+			
+			bigUFO2.posX = bigUFO.posX;
+			bigUFO2.posY = bigUFO.posY;
+	        bigUFO2.velocity = bigUFO.velocity;
+	        bigUFO2.seen = bigUFO.seen;
+			bigUFO2.initialized = bigUFO.initialized;
+	        
+	        
+			smallUFO2.posX = smallUFO.posX;
+			smallUFO2.posY = smallUFO.posY;
+		    smallUFO2.velocity = smallUFO.velocity;
+		    smallUFO2.seen = smallUFO.seen;
+		    smallUFO2.initialized = smallUFO.initialized;
+			//check current course 3 seconds in future to see if there will be impact
+		    if(tryPath(ship2,asteroids2,smallUFO2,bigUFO2,ufoShots2)){
+		    	
+		    }
+		    
+		    
+			
 			return 0;
 		};
+		
+		function tryPath(ship2,asteroids2,smallUFO2,bigUFO2,ufoShots2){
+			var i = 500;
+		    for(i= 500;i<3000;i+=500){
+		    	updateAll(ship2,asteroids2,smallUFO2,bigUFO2,ufoShots2,500);
+				if(
+				   collisions.checkCollisions(ship2,bigUFO2) ||
+				   collisions.checkCollisions(ship2,asteroids2) ||
+				   collisions.checkCollisions(ship2,ufoShots2) ||
+				   collisions.checkCollisions(ship2,smallUFO2)
+				   ){
+					evasiveManeuvers(ship,asteroids,smallUFO,bigUFO,ufoShots,movement,elapsedTime);
+				}
+				else{
+
+				}
+		    }
+		}
+		
+		function hunt(ship,asteroids,smallUFO,bigUFO,movement){
+			
+		}
+		
+		function evasiveManeuvers(ship,asteroids,smallUFO,bigUFO,ufoShots,movement){
+			//use warp if we can
+			if(ship.timeToWarp <= 0){
+				movement.warp(ship,asteroids,smallUFO,bigUFO,ufoShots,collisions);
+			}
+			else{
+				
+			}
+		}
+		
+		function updateAll(ship2,asteroids2,smallUFO2,bigUFO2,ufoShots2,time){
+			ship2.update(500);
+			if (smallUFO2.seen){
+				smallUFO2.update(500,ship2);
+			}
+			if(bigUFO2.seen){
+				bigUFO2.update(500,ship2);
+			}
+			for (var i = 0; i < asteroids2.list.length; i++)
+	        { 
+	            physics.drift(asteroids2.list[i],elapsedTime);
+	            physics.wrapAround(asteroids2.list[i]);
+	            physics.spin(asteroids2.list[i], elapsedTime);
+	        }
+			ufoShots2.update(500);
+			ufoShots2.removeDead();
+		}
 		
 		return that;
 	}

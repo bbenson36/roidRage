@@ -51,6 +51,38 @@ Asteroids.graphics = (function() {
 		context.restore();
 	}
 	
+	function ScoreDraw(spec){
+		var that = {};
+		
+		
+		that.draw = function(score){
+			var posX = Asteroids.size.width*0.80,
+			posY = Asteroids.size.height*0.03;
+			context.font = spec.font;
+			context.fillStyle = spec.fill;
+			context.strokeStyle = spec.stroke;
+			context.textBaseline = 'top';
+			context.fillText(zeroFill(score,8), posX, posY);
+			context.strokeText(zeroFill(score,8), posX, posY);
+		};
+		
+		
+		//http://stackoverflow.com/questions/1267283/how-can-i-create-a-zerofilled-value-using-javascript
+		function zeroFill( number1, width1 )
+		{
+		  width1 -= number1.toString().length;
+		  if ( width1 > 0 )
+		  {
+		    return new Array( width1 + (/\./.test( number1 ) ? 2 : 1) ).join( '0' ) + number1;
+		  }
+		  return number1 + ""; // always return a string
+		}
+
+		
+		return that;
+	}
+	
+	
 	function ShipDraw(spec){
 		var that = {};
 		
@@ -150,6 +182,7 @@ Asteroids.graphics = (function() {
 	}
 
 	return {
+		ScoreDraw : ScoreDraw,
 		clear : clear,
 		BackgroundDraw : BackgroundDraw,
 		ShipDraw : ShipDraw,
