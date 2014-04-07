@@ -19,6 +19,7 @@ Asteroids.screens['game-play'] = (function() {
             myDrawnSmallUFO = undefined,
             roids = undefined,
             shot = undefined,
+            drawnScore = undefined,
             shooting = false,
             lastTimeStamp = performance.now(),
             thrusterParticles1 = undefined,
@@ -32,12 +33,22 @@ Asteroids.screens['game-play'] = (function() {
                 
                 
             var toSpawn = 4;
+            
+     Asteroids.asterScore = Asteroids.scoring.AsteroidScore();
 	
 	function initialize() {
 		console.log('game initializing...');
 		
 		myShip.posX = 0.5 * Asteroids.size.width;
 		myShip.posY = 0.5 * Asteroids.size.height;
+		
+		
+		drawnScore = Asteroids.graphics.ScoreDraw({
+			font : '32px Arial, sans-serif',
+			fill : 'blue',
+			stroke : 'green'
+		});
+		
 		
 		//thruster smoke
 		thrusterParticles1 = Asteroids.particleSystem ({
@@ -219,9 +230,12 @@ Asteroids.screens['game-play'] = (function() {
             physics.wrapAround(asteroids.list[i]);
             physics.spin(asteroids.list[i], elapsedTime);
         }
+        
         shotList.update(elapsedTime);
         ufoShots.update(elapsedTime);
         
+        bigUFO.reappear(elapsedTime);
+        smallUFO.reappear(elapsedTime);
         
         if(bigUFO.seen){
 			bigUFO.update(elapsedTime,myShip);
@@ -308,6 +322,7 @@ Asteroids.screens['game-play'] = (function() {
                 shot.draw(shotList.list[i]);
             }
         }
+        drawnScore.draw(Asteroids.score);
 	}
         
 	function run() {

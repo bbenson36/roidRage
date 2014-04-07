@@ -54,10 +54,11 @@ Asteroids.objects = (function(){
                 posX : 0,
                 posY : 0,
                 rotation : 0,
-                seen : true,
+                seen : false,
                 width : 50,
                 height : 50,
-                type : "ship"
+                type : "smallUFO",
+                reappearTime : 30000
             };
         that.update = function(elapsedTime, ship){
         	if(!that.initialized){
@@ -79,6 +80,22 @@ Asteroids.objects = (function(){
         	physics.wrapAround(that);
         	
         };
+        
+        that.reappear = function(time){
+	    	 if(that.seen === false){
+	    		 that.reappearTime -= time;
+	    		 if(that.reappearTime <=0){
+	    			 that.seen = true;
+	    			 that.initialized = false;
+	    			 if(Asteroids.score < 40000){
+	    				 that.reappearTime = 30000;
+	    			 }
+	    			 else{
+	    				 that.reappearTime = 10000;
+	    			 }
+	    		 }
+	    	 }	 
+	     };
         
         that.addParticles = function(particleSystem){
         	var i;
@@ -120,9 +137,10 @@ Asteroids.objects = (function(){
             width : 100,
             height : 100,
             rotation : 0,
-            seen : true,
+            seen : false,
             initialized : false,
-            type : "ship"
+            type : "bigUFO",
+            reappearTime : 10000
         };
 		//we need the ship passed in so it knows where to shoot
 		 that.update = function(elapsedTime, ship){
@@ -146,6 +164,18 @@ Asteroids.objects = (function(){
 	        	
 	        		
 	     };
+	     
+	     that.reappear = function(time){
+	    	 if(that.seen === false && Asteroids.score < 40000){
+	    		 that.reappearTime -= time;
+	    		 if(that.reappearTime <=0){
+	    			 that.seen = true;
+	    			 that.initialized = false;
+	    			 that.reappearTime = 10000;
+	    		 }
+	    	 }	 
+	     };
+	     
 	     that.addParticles = function(particleSystem){
 	        	var i;
 	        	
@@ -294,7 +324,7 @@ Asteroids.objects = (function(){
         };
         
         that.requestShot = function(gameObject){
-            if(that.lastShot > 500)
+            if(that.lastShot > 200)
             {
                 that.shotSpawn(gameObject);
                 that.lastShot = 0;
@@ -315,7 +345,7 @@ Asteroids.objects = (function(){
         that.removeDead = function(){
         	var i;
         	for(i = 0; i<that.list.length; i+=1){
-	        	if(that.list[i].age > 500){
+	        	if(that.list[i].age > 700){
 	                that.list.shift();
 	            }
 	        	else if(that.list[i].die){

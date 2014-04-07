@@ -4,7 +4,7 @@ var Asteroids = {
 	score : 0,
 	elapsedTime : 0,
 	size : {width : 900, height : 900},
-
+	curScore : 0,
 	status : {
 		preloadRequest : 0,
 		preloadComplete : 0

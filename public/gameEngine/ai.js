@@ -71,12 +71,12 @@ Asteroids.ai = (function(){
 		}
 		function aiShotTime(){
 			if(that.aiType === 'small'){
-				//every 5 second
-				return 5000;
+				//every 3 second
+				return 3000;
 			}
 			else{
-				//every 10 seconds
-				return 10000;
+				//every 5 seconds
+				return 5000;
 			}
 		}
 		
@@ -112,11 +112,20 @@ Asteroids.ai = (function(){
 		function aiShotAccuracy(){
 			if(that.aiType === 'small'){
 				//we'll want to get this more accurate based on the score
-				// 0 is 100% accurate
-				return 0;
+				// 0 is 100% accurate ( based on prediction anyway)
+				if(Asteroids.score < 40000){
+					return (Random.nextDouble() - 0.5)/2;
+				}
+				else if (Asteroids.score < 60000){
+					return (Random.nextDouble() -0.5)/4;
+				}
+				else{
+					return 0;
+				}
+				
 			}
 			else{
-				return 0;
+				return Random.nextDouble() - 0.5;
 			}
 			
 		}

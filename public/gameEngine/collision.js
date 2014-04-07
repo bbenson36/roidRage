@@ -35,6 +35,10 @@ Asteroids.collision = (function(){
 			for(i = 0; i< obj1array.length; i+=1){
 				for(j = 0; j<obj2array.length; j+=1){
 					if(isCollision(obj1array[i], obj2array[j])){
+						if (obj1array[i].type === 'shot' && obj2array[j]!=='ship'){
+							//add score
+							Asteroids.asterScore.addScore(obj2array[j]);
+						}
 						goBoom(obj1array[i]);
 						goBoom(obj2array[j]);
 					}
