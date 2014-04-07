@@ -7,8 +7,9 @@ Asteroids.screens['game-play'] = (function() {
             cancelNextRequest = false,
             moveShip = Asteroids.movement.ShipMovement(),
             myShip = Asteroids.objects.Ship(),
-            smallUFO = Asteroids.objects.UFOSmall(),
-            bigUFO = Asteroids.objects.UFOBig(),
+            ufoShots = Asteroids.objects.ShotList(),
+            smallUFO = Asteroids.objects.UFOSmall(ufoShots),
+            bigUFO = Asteroids.objects.UFOBig(ufoShots),
             asteroids = Asteroids.objects.AsteroidList(),
             shotList = Asteroids.objects.ShotList(),
             collisions = Asteroids.collision.CollisionDetection(),
@@ -171,7 +172,7 @@ Asteroids.screens['game-play'] = (function() {
 		myKeyboard.registerCommand(KeyEvent.DOM_VK_A, function(){moveShip.turnLeft(myShip,Asteroids.elapsedTime);});
 		myKeyboard.registerCommand(KeyEvent.DOM_VK_D, function(){moveShip.turnRight(myShip,Asteroids.elapsedTime);});
 		myKeyboard.registerCommand(KeyEvent.DOM_VK_W, function(){moveShip.booster(myShip,Asteroids.elapsedTime);});
-                
+        myKeyboard.registerCommand(KeyEvent.DOM_VK_Q, function(){moveShip.warp(myShip,asteroids,smallUFO,bigUFO,ufoShots,collisions);});        
                 
        myKeyboard.registerCommand(KeyEvent.DOM_VK_V, function(){shotList.requestShot(myShip);});
 		
@@ -207,8 +208,10 @@ Asteroids.screens['game-play'] = (function() {
 	function update(elapsedTime){
         lastShot += elapsedTime;
 		myKeyboard.update();
-        physics.drift(myShip,elapsedTime);
-        physics.wrapAround(myShip);
+		
+		myShip.update(elapsedTime);
+		
+        
         
         for (var i = 0; i < asteroids.list.length; i++)
         { 
@@ -217,22 +220,25 @@ Asteroids.screens['game-play'] = (function() {
             physics.spin(asteroids.list[i], elapsedTime);
         }
         shotList.update(elapsedTime);
+        ufoShots.update(elapsedTime);
         
         
-        //just for now
-        bigUFO.seen = true;
         if(bigUFO.seen){
 			bigUFO.update(elapsedTime,myShip);
+			collisions.handleCollisions(myShip,bigUFO);
+			collisions.handleCollisions(shotList,bigUFO);
 		}
-        smallUFO.seen = true
 		if(smallUFO.seen){
 			smallUFO.update(elapsedTime,myShip);
+			collisions.handleCollisions(myShip,smallUFO);
+	        collisions.handleCollisions(shotList,smallUFO);
 		}
         
         
         //check for collisons now that everything has been moved
         collisions.handleCollisions(myShip, asteroids);
         collisions.handleCollisions(shotList, asteroids);
+        collisions.handleCollisions(myShip,ufoShots);
         
         
         //ship thruster particles
@@ -246,22 +252,22 @@ Asteroids.screens['game-play'] = (function() {
         asterParticles1.update(elapsedTime/1000);
         asteroids.addParticles(asterParticles2);
         asterParticles2.update(elapsedTime/1000);
+        shipBoomParticles1.update(elapsedTime/1000);
+        shipBoomParticles2.update(elapsedTime/1000);
         //UFO particles
         if(smallUFO.die){
         	smallUFO.addParticles(shipBoomParticles1);
-        	shipBoomParticles1.update(elapsedTime/1000);
         	smallUFO.addParticles(shipBoomParticles2);
-        	shipBoomParticles1.update(elapsedTime/1000);
         	smallUFO.seen = false;
+        	smallUFO.die = false;
         }
         if(bigUFO.die){
-        	bigUFO.addParticles(shipBoomParticles1);
-        	bigBoomParticles1.update(elapsedTime/1000);
+        	bigUFO.addParticles(shipBoomParticles1);    	
         	bigUFO.addParticles(shipBoomParticles2);
-        	shipBoomParticles1.update(elapsedTime/1000);
         	bigUFO.seen = false;
+        	bigUFO.die = false;
         }
-
+        ufoShots.removeDead();
         shotList.removeDead();
         asteroids.handleHits();
 	}
@@ -287,6 +293,13 @@ Asteroids.screens['game-play'] = (function() {
         for (var i = 0; i < asteroids.list.length; i++)
         { 
             roids.draw(asteroids.list[i]);
+        }
+        if(typeof ufoShots.list !== 'undefined')
+        {
+            for (var i = 0; i < ufoShots.list.length; i++)
+            { 
+                shot.draw(ufoShots.list[i]);
+            }
         }
         if(typeof shotList.list !== 'undefined')
         {

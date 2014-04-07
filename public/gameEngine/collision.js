@@ -42,6 +42,38 @@ Asteroids.collision = (function(){
 			}
 			
 		};
+		//returns true if there is a a collision
+		//used in AI and warp
+		that.checkCollisions = function(objectgroup1, objectgroup2){
+			//we convert the objects into array to make them easier to iterate over
+			var obj1array = [],
+				obj2array = [],
+				i = 0,
+				j = 0;
+			
+			if(objectgroup1.list){
+				obj1array = objectgroup1.list;
+			}
+			else{
+				obj1array.push(objectgroup1);
+			}
+			
+			if(objectgroup2.list){
+				obj2array = objectgroup2.list;
+			}
+			else{
+				obj2array.push(objectgroup2);
+			}
+			
+			for(i = 0; i< obj1array.length; i+=1){
+				for(j = 0; j<obj2array.length; j+=1){
+					if(isCollision(obj1array[i], obj2array[j])){
+						return true;
+					}
+				}
+			}
+			return false;
+		};
 		
 		//private functions
 		function goBoom(obj){

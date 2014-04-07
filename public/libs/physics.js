@@ -9,6 +9,23 @@ var physics = (function() {
 	function calcSpeed(time, acceleration,speed){
 		return 0;
 	}
+	
+	function calcDistanceAndAngle(gameObject1, gameObject2){
+		var returnStuff = {
+				distance : 0,
+				rotation : 0
+		},
+		xdist = 0,
+		ydist = 0;
+		
+		xdist = gameObject2.posX - gameObject1.posX;
+		ydist = gameObject2.posY - gameObject1.posY;
+		
+		returnStuff.rotation = Math.atan2(ydist,xdist);
+		returnStuff.distance = Math.sqrt(Math.pow(xdist,2) + Math.pow(ydist,2));
+		
+		return returnStuff;
+	}
         
         function accelerate(gameObject, time)
         {
@@ -74,6 +91,7 @@ var physics = (function() {
 	return {
 		caclAngle : calcAngle,
 		calcSpeed : calcSpeed,
+		calcDistanceAndAngle : calcDistanceAndAngle,
                 accelerate : accelerate,
                 drift : drift,
                 wrapAround : wrapAround,

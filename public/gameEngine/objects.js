@@ -4,7 +4,7 @@ Asteroids.objects = (function(){
         var that = {
             posX : 0,
             posY : 0,
-            
+            timeToWarp : 0,
             height : 30,
             width : 30,
             isBoosting : false,
@@ -19,6 +19,14 @@ Asteroids.objects = (function(){
             
             type : "ship"
         };
+        
+        that.update = function(time){
+        	physics.drift(that,time);
+            physics.wrapAround(that);
+            if(that.timeToWarp > 0){
+            	that.timeToWarp -= time;
+            }
+        }
         
         that.addParticles = function(particleSystem){
         	var i;
@@ -40,11 +48,13 @@ Asteroids.objects = (function(){
 	}
 	
     
-	function UFOSmall(){
+	function UFOSmall(shotlist){
 		var smallAI = Asteroids.ai.UFOAI('small');
             var that = {
                 posX : 0,
                 posY : 0,
+                rotation : 0,
+                seen : true,
                 width : 50,
                 height : 50,
                 type : "ship"
@@ -63,21 +73,54 @@ Asteroids.objects = (function(){
         		that.velocity = smallAI.nextVelocity(that.velocity, elapsedTime);
         	}
         	
+        	smallAI.nextShot(elapsedTime,that,ship,shotlist);
+        	
         	physics.drift(that,elapsedTime);
         	physics.wrapAround(that);
         	
+        };
+        
+        that.addParticles = function(particleSystem){
+        	var i;
+        	
+        	particleSystem.newPosition({
+        		x: that.posX, 
+        		y: that.posY
+        		});
+        	particleSystem.newDirection(that.rotation);
+        	//one direction
+        	for(i = 0;i<particleSystem.count;i+=1){
+        		particleSystem.create();
+        	}
+        	//second direction
+        	particleSystem.newDirection(that.rotation+Math.PI);
+        	for(i = 0;i<particleSystem.count;i+=1){
+        		particleSystem.create();
+        	}
+        	//third direction
+        	particleSystem.newDirection(that.rotation+Math.PI/2);
+        	for(i = 0;i<particleSystem.count;i+=1){
+        		particleSystem.create();
+        	}
+        	//fourth direction
+        	particleSystem.newDirection(that.rotation-Math.PI/2);
+        	for(i = 0;i<particleSystem.count;i+=1){
+        		particleSystem.create();
+        	}
         };
 		
         return that;
 	}
 	
-	function UFOBig(){
+	function UFOBig(shotList){
 		var bigAI = Asteroids.ai.UFOAI('big');
 		 var that = {
             posX : 0,
             posY : 0,
             width : 100,
             height : 100,
+            rotation : 0,
+            seen : true,
             initialized : false,
             type : "ship"
         };
@@ -96,11 +139,41 @@ Asteroids.objects = (function(){
 	        		that.velocity = bigAI.nextVelocity(that.velocity, elapsedTime);
 	        	}
 	        	
+	        	bigAI.nextShot(elapsedTime,that,ship,shotList);
+	        	
 	        	physics.drift(that,elapsedTime);
 	        	physics.wrapAround(that);
 	        	
 	        		
 	     };
+	     that.addParticles = function(particleSystem){
+	        	var i;
+	        	
+	        	particleSystem.newPosition({
+	        		x: that.posX, 
+	        		y: that.posY
+	        		});
+	        	particleSystem.newDirection(that.rotation);
+	        	//one direction
+	        	for(i = 0;i<particleSystem.count;i+=1){
+	        		particleSystem.create();
+	        	}
+	        	//second direction
+	        	particleSystem.newDirection(that.rotation+Math.PI);
+	        	for(i = 0;i<particleSystem.count;i+=1){
+	        		particleSystem.create();
+	        	}
+	        	//third direction
+	        	particleSystem.newDirection(that.rotation+Math.PI/2);
+	        	for(i = 0;i<particleSystem.count;i+=1){
+	        		particleSystem.create();
+	        	}
+	        	//fourth direction
+	        	particleSystem.newDirection(that.rotation-Math.PI/2);
+	        	for(i = 0;i<particleSystem.count;i+=1){
+	        		particleSystem.create();
+	        	}
+	        };
 
         return that;
 		
@@ -146,6 +219,11 @@ Asteroids.objects = (function(){
         	}
         	//third direction
         	particleSystem.newDirection(that.rotation+Math.PI/2);
+        	for(i = 0;i<particleSystem.count;i+=1){
+        		particleSystem.create();
+        	}
+        	//fourth direction
+        	particleSystem.newDirection(that.rotation-Math.PI/2);
         	for(i = 0;i<particleSystem.count;i+=1){
         		particleSystem.create();
         	}
