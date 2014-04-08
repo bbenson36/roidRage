@@ -41,6 +41,9 @@ Asteroids.collision = (function(){
 						}
 						goBoom(obj1array[i]);
 						goBoom(obj2array[j]);
+                                                
+                                                var explosionSnd = new Audio("sounds/bangMedium.wav");
+                                                explosionSnd.play();
 					}
 				}
 			}

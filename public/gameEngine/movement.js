@@ -43,7 +43,7 @@ Asteroids.movement = (function(){
 				//every 5 seconds you can warp
 				ship.timeToWarp = 5000;
 			}
-		}
+		};
 		
 		that.turnLeft = function(ship, elapsedTime){
 			ship.rotation -= that.turnRate*elapsedTime/1000;
@@ -58,7 +58,9 @@ Asteroids.movement = (function(){
 		//this will need to make a physics call
 		that.booster = function(gameobject,elapsedTime){
 			physics.accelerate(gameobject, elapsedTime);
-            gameobject.isBoosting = true;
+                    gameobject.isBoosting = true;
+                    var thrustSnd = new Audio("sounds/beat1.wav");
+                    thrustSnd.play();
 			//console.log("boost!");
 		};
 		

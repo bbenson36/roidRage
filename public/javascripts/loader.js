@@ -35,6 +35,16 @@ window.addEventListener('load', function() {
                             'preload!images/asteroid.png',
                             'preload!images/ufo.png',
                             'preload!images/shot.png',
+                            //Sounds
+                            'preload!sounds/bangLarge.wav',
+                            'preload!sounds/bangMedium.wav',
+                            'preload!sounds/bangSmall.wav',
+                            'preload!sounds/beat1.wav',
+                            'preload!sounds/beat2.wav',
+                            'preload!sounds/extraShip.wav',
+                            'preload!sounds/fire.wav',
+                            'preload!sounds/saucerBig.wav',
+                            'preload!sounds/thrust.wav',
 			    //libs
 			    'preload!libs/physics.js',
 			    'preload!libs/random.js',
