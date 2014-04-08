@@ -28,6 +28,7 @@ Asteroids.screens['game-play'] = (function() {
             thrusterParticles2 = undefined,
             asterParticles2 = undefined,
             shipBoomParticles2 = undefined,
+            shipAI = Asteroids.ai.AI(myShip, asteroids, bigUFO, smallUFO, shotList, ufoShots, collisions, moveShip),
             thrusterCount = 0,
             lastShot = 1;
                 
@@ -220,6 +221,9 @@ Asteroids.screens['game-play'] = (function() {
         lastShot += elapsedTime;
 		myKeyboard.update();
 		
+		//put this in an if to turn it off
+		shipAI.nextMove();
+        
 		myShip.update(elapsedTime);
 		
         

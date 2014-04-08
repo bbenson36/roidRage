@@ -58,7 +58,11 @@ Asteroids.objects = (function(){
                 width : 50,
                 height : 50,
                 type : "smallUFO",
-                reappearTime : 30000
+                reappearTime : 30000,
+                velocity : {
+                		x:0,
+                		y:0
+                }
             };
         that.update = function(elapsedTime, ship){
         	if(!that.initialized){
@@ -140,7 +144,11 @@ Asteroids.objects = (function(){
             seen : false,
             initialized : false,
             type : "bigUFO",
-            reappearTime : 10000
+            reappearTime : 10000,
+            velocity : {
+            		x:0,
+            		y:0
+            }
         };
 		//we need the ship passed in so it knows where to shoot
 		 that.update = function(elapsedTime, ship){
