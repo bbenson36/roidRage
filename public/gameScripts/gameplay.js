@@ -31,16 +31,20 @@ Asteroids.screens['game-play'] = (function() {
             drawMessage = undefined,
             shipAI = Asteroids.ai.AI(myShip, asteroids, bigUFO, smallUFO, shotList, ufoShots, collisions, moveShip),
             thrusterCount = 0,
-            level = Asteroids.objects.Level(0),
+            level = undefined,
             restartTime,
             lastShot = 1,
-            drawCleared = false;
+            drawCleared = false,
+            drawOver = false,
+            respawn = 1000,
+            gameOver = false;
             
      Asteroids.asterScore = Asteroids.scoring.AsteroidScore();
 	
 	function initialize() {
 		console.log('game initializing...');
                 
+                level = new Asteroids.objects.Level(0);
                 level.startLevel(asteroids);
 		
 		myShip.posX = 0.5 * Asteroids.size.width;
@@ -227,45 +231,55 @@ Asteroids.screens['game-play'] = (function() {
 
 	
 	function update(elapsedTime){
-        lastShot += elapsedTime;
-		myKeyboard.update();
+            lastShot += elapsedTime;
+            myKeyboard.update();
+            
+            
+            if(gameOver){
+                drawOver = true;
+                return;
+            }
+
+            //put this in an if to turn it off
+            //shipAI.nextMove();
+
+            if(myShip.seen)
+            {
+                myShip.update(elapsedTime);
+                collisions.handleCollisions(myShip, asteroids);
+                collisions.handleCollisions(myShip,ufoShots);
+            }
 		
-		//put this in an if to turn it off
-		//shipAI.nextMove();
-        
-		myShip.update(elapsedTime);
-		
         
         
-        for (var i = 0; i < asteroids.list.length; i++)
-        { 
-            physics.drift(asteroids.list[i],elapsedTime);
-            physics.wrapAround(asteroids.list[i]);
-            physics.spin(asteroids.list[i], elapsedTime);
-        }
-        
-        shotList.update(elapsedTime);
-        ufoShots.update(elapsedTime);
-        
-        bigUFO.reappear(elapsedTime);
-        smallUFO.reappear(elapsedTime);
-        
-        if(bigUFO.seen){
-			bigUFO.update(elapsedTime,myShip);
-			collisions.handleCollisions(myShip,bigUFO);
-			collisions.handleCollisions(shotList,bigUFO);
-		}
-		if(smallUFO.seen){
-			smallUFO.update(elapsedTime,myShip);
-			collisions.handleCollisions(myShip,smallUFO);
-	        collisions.handleCollisions(shotList,smallUFO);
-		}
+            for (var i = 0; i < asteroids.list.length; i++)
+            { 
+                physics.drift(asteroids.list[i],elapsedTime);
+                physics.wrapAround(asteroids.list[i]);
+                physics.spin(asteroids.list[i], elapsedTime);
+            }
+
+            shotList.update(elapsedTime);
+            ufoShots.update(elapsedTime);
+
+            bigUFO.reappear(elapsedTime);
+            smallUFO.reappear(elapsedTime);
+
+            if(bigUFO.seen){
+                bigUFO.update(elapsedTime,myShip);
+                collisions.handleCollisions(myShip,bigUFO);
+                collisions.handleCollisions(shotList,bigUFO);
+            }
+            if(smallUFO.seen){
+                smallUFO.update(elapsedTime,myShip);
+                collisions.handleCollisions(myShip,smallUFO);
+                collisions.handleCollisions(shotList,smallUFO);
+            }
         
         
             //check for collisons now that everything has been moved
-            collisions.handleCollisions(myShip, asteroids);
+            
             collisions.handleCollisions(shotList, asteroids);
-            collisions.handleCollisions(myShip,ufoShots);
 
 
             //ship thruster particles
@@ -294,15 +308,37 @@ Asteroids.screens['game-play'] = (function() {
                     bigUFO.seen = false;
                     bigUFO.die = false;
             }
-            if(myShip.die){
+            
+            if(myShip.die && myShip.seen){
+                myShip.addParticles(shipBoomParticles1);    	
+                myShip.addParticles(shipBoomParticles2);
+                myShip.seen = false;
+                myShip.die = false;
                 
+                --myShip.lives;
+                
+                if(myShip.lives < 0)
+                {
+                    gameOver = true;
+                }
+                
+            }
+            
+            if(!myShip.seen)
+            {
+                respawn -= elapsedTime;
+                if(respawn <= 0)
+                {
+                    myShip.seen = true;
+                    respawn = 1000;
+                    myShip.velocity.x = 0;
+                    myShip.velocity.y = 0;
+                }
             }
             ufoShots.removeDead();
             shotList.removeDead();
             asteroids.handleHits();
             
-            //sounds
-           
             
             
             
@@ -345,7 +381,10 @@ Asteroids.screens['game-play'] = (function() {
             if(smallUFO.seen){
                     myDrawnSmallUFO.draw(smallUFO);
             }
-            mySpaceShip.draw(myShip);
+            if(myShip.seen)
+            {
+                mySpaceShip.draw(myShip);
+            }
                 
             for (var i = 0; i < asteroids.list.length; i++)
             { 
@@ -369,6 +408,10 @@ Asteroids.screens['game-play'] = (function() {
             if(drawCleared)
             {
                 drawMessage.draw("WAVE CLEARED");
+            }
+            if(drawOver)
+            {
+                drawMessage.draw("Game Over");
             }
 	}
         

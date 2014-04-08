@@ -16,17 +16,21 @@ Asteroids.objects = (function(){
             power: 0.1,
 
             rotation : 0,
+            lives : 3,
             
             type : "ship"
         };
         
+        
+        
+                    
         that.update = function(time){
-        	physics.drift(that,time);
+            physics.drift(that,time);
             physics.wrapAround(that);
             if(that.timeToWarp > 0){
             	that.timeToWarp -= time;
             }
-        }
+        };
         
         that.addParticles = function(particleSystem){
         	var i;
@@ -42,10 +46,10 @@ Asteroids.objects = (function(){
 	        		particleSystem.create();
 	        	}
             }
-       };
+        };
         
         return that;
-	}
+        }
 	
     
 	function UFOSmall(shotlist){
@@ -394,7 +398,7 @@ Asteroids.objects = (function(){
     
     function Level(progress){
         var that = {
-            asteroids : 4 + progress
+            asteroids : 4 + progress,
              
         };
         
