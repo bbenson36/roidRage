@@ -4,6 +4,7 @@
 	<meta charset = "UTF-8">
 	<link rel="stylesheet" href="/stylesheets/style.css" type="text/css" />
 	<title>Roid Rage</title>
+	<script type="text/javascript" src = "http://code.jquery.com/jquery-latest.min.js"></script>
 	<script src = "/javascripts/modernizr.js"></script>
 	<script src = "/javascripts/loader.js"></script>
 </head>
@@ -18,16 +19,20 @@
 			</ul>
 		</div>
 		<div id = "game-play" class = "screen">
-			<canvas id = "canvas-main" width = "900" height = "600"></canvas>
+			<canvas id = "canvas-main" width = "900" height = "900"></canvas>
 		</div>
 		<div id = "high-scores" class = "screen">
 			<h1>High Scores</h1>
-			<ol>
-				<li>10000</li>
-				<li>9000</li>
-				<li>8000</li>
-				<li>7000</li>
+			<input id="id-playerName" type="text" placeholder="player name">
+			<button onclick="Asteroids.scoring.sendScoreServer();">Submit</button>
+			<br>
+			<button onclick="Asteroids.scoring.getScoresServer();">Show Scores</button>
+			<p>
+			<div id="scores-server">
+			<ol id="result-high-scores">
 			</ol>
+			</div>
+			</p>
 			<ul class = "menu">
 				<li><button id = "id-high-scores-back">Back</button></li>
 			</ul>

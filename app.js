@@ -1,4 +1,8 @@
-
+var express = require('express'),
+	http = require('http'),
+	path = require('path'),
+	scores = require('./routes/scores'),
+	app = express();
 /**
  * Module dependencies.
  */
@@ -28,6 +32,14 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
+
+app.get('/v1/high-scores', scores.all);
+app.post('/v1/high-scores', scores.add);
+
+app.all('/v1/*', function(request, response) {
+	response.writeHead(501);
+	response.end();
+});
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

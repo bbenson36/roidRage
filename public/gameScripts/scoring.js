@@ -40,38 +40,9 @@ Asteroids.scoring = (function(){
 			else if (destroyedObject.type === 'bigUFO'){
 				Asteroids.score += 1000;
 			}
-			console.log(Asteroids.score);
 			
 		};
-		that.sendScoreServer = function(name){
-			var name = $('#id-playerName').val(),
-			score = Asteroids.score;
-			$.ajax({
-				url: 'http://localhost:3000/v1/high-scores?name=' + name + '&score=' + score,
-				type: 'POST',
-				error: function() { alert('POST failed'); },
-				success: function() {
-					that.getScoresServer();
-				}
-			});
-		};
-		that.getScoresServer = function(){
-			$.ajax({
-				url: 'http://localhost:3000/v1/high-scores',
-				cache: false,
-				type: 'GET',
-				error: function() { alert('GET failed'); },
-				success: function(data) {
-					var list = $('#id-high-scores'),
-					value;
-					list.empty();
-					for (value = 0; value < data.length; value++) {
-						var text = (data[value].name + ' : ' + data[value].score);
-						list.append($('<li>', { text: text }));
-					}
-				}
-			});
-		};
+		
 		that.resetScore = function(){
 			Asteroids.score = 0;
 		};
@@ -79,8 +50,41 @@ Asteroids.scoring = (function(){
 		return that;
 		
 	}
+
+	function sendScoreServer(){
+		var name = $('#id-playerName').val(),
+		score = Asteroids.score;
+		$.ajax({
+			url: 'http://localhost:3000/v1/high-scores?name=' + name + '&score=' + score,
+			type: 'POST',
+			error: function() { alert('POST failed'); },
+			success: function() {
+				that.getScoresServer();
+			}
+		});
+	}
 	
+	function getScoresServer(){
+		$.ajax({
+			url: 'http://localhost:3000/v1/high-scores',
+			cache: false,
+			type: 'GET',
+			error: function() { alert('GET failed'); },
+			success: function(data) {
+				var list = $('#result-high-scores'),
+				value;
+				list.empty();
+				for (value = 0; value < data.length; value++) {
+					var text = (data[value].name + ' : ' + data[value].score);
+					list.append($('<li>', { text: text }));
+				}
+			}
+		});
+	}
+		
 	return {
+		sendScoreServer: sendScoreServer,
+		getScoresServer: getScoresServer,
 		GenericScoring : GenericScoring,
 		AsteroidScore : AsteroidScore
 	};
