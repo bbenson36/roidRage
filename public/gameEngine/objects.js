@@ -328,7 +328,9 @@ Asteroids.objects = (function(){
         };
         
         that.shotSpawn = function(gameObject){
-            that.list.push(new Asteroids.objects.Shot(gameObject));            
+            that.list.push(new Asteroids.objects.Shot(gameObject));  
+            var shotSnd = new Audio("sounds/fire.wav");
+            shotSnd.play();
         };
         
         that.requestShot = function(gameObject){
@@ -389,15 +391,32 @@ Asteroids.objects = (function(){
         
         return that;
     }
+    
+    function Level(progress){
+        var that = {
+            asteroids : 4 + progress
+             
+        };
+        
+        that.startLevel = function(myList)
+        {
+            for(var i = 0; i<that.asteroids; ++i)
+            {
+                myList.list.push(Asteroid(1));
+            };
+        };
+        return that;
+    }
 	
 	return {
 		Ship : Ship,
 		UFOSmall : UFOSmall,
 		UFOBig : UFOBig,
 		Asteroid : Asteroid,
-        Shot : Shot,
-        AsteroidList : AsteroidList,
-        ShotList : ShotList
+                Shot : Shot,
+                AsteroidList : AsteroidList,
+                ShotList : ShotList,
+                Level : Level
 	};
 	
 }());

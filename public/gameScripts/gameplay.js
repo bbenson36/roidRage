@@ -28,23 +28,32 @@ Asteroids.screens['game-play'] = (function() {
             thrusterParticles2 = undefined,
             asterParticles2 = undefined,
             shipBoomParticles2 = undefined,
+            drawMessage = undefined,
             shipAI = Asteroids.ai.AI(myShip, asteroids, bigUFO, smallUFO, shotList, ufoShots, collisions, moveShip),
             thrusterCount = 0,
-            lastShot = 1;
-                
-                
-            var toSpawn = 4;
+            level = Asteroids.objects.Level(0),
+            restartTime,
+            lastShot = 1,
+            drawCleared = false;
             
      Asteroids.asterScore = Asteroids.scoring.AsteroidScore();
 	
 	function initialize() {
 		console.log('game initializing...');
+                
+                level.startLevel(asteroids);
 		
 		myShip.posX = 0.5 * Asteroids.size.width;
 		myShip.posY = 0.5 * Asteroids.size.height;
 		
 		
-		drawnScore = Asteroids.graphics.ScoreDraw({
+		drawMessage = Asteroids.graphics.messageDraw({
+			font : '48px Arial, sans-serif',
+			fill : 'orange',
+			stroke : 'red'
+		});
+                
+                drawnScore = Asteroids.graphics.ScoreDraw({
 			font : '32px Arial, sans-serif',
 			fill : 'blue',
 			stroke : 'green'
@@ -159,10 +168,10 @@ Asteroids.screens['game-play'] = (function() {
                 asteroids.push(Asteroids.objects.Asteroid(2));
                 asteroids.push(Asteroids.objects.Asteroid(4));*/
                 
-                for(var i = 0; i < toSpawn; ++i)
+                /*for(var i = 0; i < toSpawn; ++i)
                 {
                     asteroids.list.push(Asteroids.objects.Asteroid(1));
-                }
+                }*/
                 
                 console.log(asteroids.list[0].spin);
                 
@@ -222,7 +231,7 @@ Asteroids.screens['game-play'] = (function() {
 		myKeyboard.update();
 		
 		//put this in an if to turn it off
-		shipAI.nextMove();
+		//shipAI.nextMove();
         
 		myShip.update(elapsedTime);
 		
@@ -253,80 +262,114 @@ Asteroids.screens['game-play'] = (function() {
 		}
         
         
-        //check for collisons now that everything has been moved
-        collisions.handleCollisions(myShip, asteroids);
-        collisions.handleCollisions(shotList, asteroids);
-        collisions.handleCollisions(myShip,ufoShots);
-        
-        
-        //ship thruster particles
-        myShip.addParticles(thrusterParticles1);
-        thrusterParticles1.update(elapsedTime/1000);
-        myShip.addParticles(thrusterParticles2);
-        thrusterParticles2.update(elapsedTime/1000);
-        myShip.isBoosting = false;
-        //asteroid particles
-        asteroids.addParticles(asterParticles1);
-        asterParticles1.update(elapsedTime/1000);
-        asteroids.addParticles(asterParticles2);
-        asterParticles2.update(elapsedTime/1000);
-        shipBoomParticles1.update(elapsedTime/1000);
-        shipBoomParticles2.update(elapsedTime/1000);
-        //UFO particles
-        if(smallUFO.die){
-        	smallUFO.addParticles(shipBoomParticles1);
-        	smallUFO.addParticles(shipBoomParticles2);
-        	smallUFO.seen = false;
-        	smallUFO.die = false;
-        }
-        if(bigUFO.die){
-        	bigUFO.addParticles(shipBoomParticles1);    	
-        	bigUFO.addParticles(shipBoomParticles2);
-        	bigUFO.seen = false;
-        	bigUFO.die = false;
-        }
-        ufoShots.removeDead();
-        shotList.removeDead();
-        asteroids.handleHits();
+            //check for collisons now that everything has been moved
+            collisions.handleCollisions(myShip, asteroids);
+            collisions.handleCollisions(shotList, asteroids);
+            collisions.handleCollisions(myShip,ufoShots);
+
+
+            //ship thruster particles
+            myShip.addParticles(thrusterParticles1);
+            thrusterParticles1.update(elapsedTime/1000);
+            myShip.addParticles(thrusterParticles2);
+            thrusterParticles2.update(elapsedTime/1000);
+            myShip.isBoosting = false;
+            //asteroid particles
+            asteroids.addParticles(asterParticles1);
+            asterParticles1.update(elapsedTime/1000);
+            asteroids.addParticles(asterParticles2);
+            asterParticles2.update(elapsedTime/1000);
+            shipBoomParticles1.update(elapsedTime/1000);
+            shipBoomParticles2.update(elapsedTime/1000);
+            //UFO particles
+            if(smallUFO.die){
+                    smallUFO.addParticles(shipBoomParticles1);
+                    smallUFO.addParticles(shipBoomParticles2);
+                    smallUFO.seen = false;
+                    smallUFO.die = false;
+            }
+            if(bigUFO.die){
+                    bigUFO.addParticles(shipBoomParticles1);    	
+                    bigUFO.addParticles(shipBoomParticles2);
+                    bigUFO.seen = false;
+                    bigUFO.die = false;
+            }
+            if(myShip.die){
+                
+            }
+            ufoShots.removeDead();
+            shotList.removeDead();
+            asteroids.handleHits();
+            
+            //sounds
+           
+            
+            
+            
+            
+            //triggers next level
+            if(asteroids.list.length === 0)
+            {
+                restartTime -= elapsedTime;
+                console.log(restartTime);
+                drawCleared = true;
+                
+                
+                if(restartTime <= 0)
+                {
+                    level.asteroids += 1;
+                    level.startLevel(asteroids);
+                    restartTime = 3000;
+                    drawCleared = false;
+                }
+            }
+            else
+            {
+                restartTime = 3000;
+            }
 	}
 	
 	function render(elapsedTime){
 
-		Asteroids.graphics.clear();
-		myDrawnBackground.draw();
-		thrusterParticles1.render();
-		thrusterParticles2.render();
-		asterParticles1.render();
-		asterParticles2.render();
-		shipBoomParticles1.render();
-		shipBoomParticles2.render();
-		if(bigUFO.seen){
-			myDrawnBigUFO.draw(bigUFO);
-		}
-		if(smallUFO.seen){
-			myDrawnSmallUFO.draw(smallUFO);
-		}
-		mySpaceShip.draw(myShip);
+            Asteroids.graphics.clear();
+            myDrawnBackground.draw();
+            thrusterParticles1.render();
+            thrusterParticles2.render();
+            asterParticles1.render();
+            asterParticles2.render();
+            shipBoomParticles1.render();
+            shipBoomParticles2.render();
+            if(bigUFO.seen){
+                    myDrawnBigUFO.draw(bigUFO);
+            }
+            if(smallUFO.seen){
+                    myDrawnSmallUFO.draw(smallUFO);
+            }
+            mySpaceShip.draw(myShip);
                 
-        for (var i = 0; i < asteroids.list.length; i++)
-        { 
-            roids.draw(asteroids.list[i]);
-        }
-        if(typeof ufoShots.list !== 'undefined')
-        {
-            for (var i = 0; i < ufoShots.list.length; i++)
+            for (var i = 0; i < asteroids.list.length; i++)
             { 
-                shot.draw(ufoShots.list[i]);
+                roids.draw(asteroids.list[i]);
             }
-        }
-        if(typeof shotList.list !== 'undefined')
-        {
-            for (var i = 0; i < shotList.list.length; i++)
-            { 
-                shot.draw(shotList.list[i]);
+            if(typeof ufoShots.list !== 'undefined')
+            {
+                for (var i = 0; i < ufoShots.list.length; i++)
+                { 
+                    shot.draw(ufoShots.list[i]);
+                }
             }
-        }
-        drawnScore.draw(Asteroids.score);
+            if(typeof shotList.list !== 'undefined')
+            {
+                for (var i = 0; i < shotList.list.length; i++)
+                { 
+                    shot.draw(shotList.list[i]);
+                }
+            }
+            drawnScore.draw(Asteroids.score);
+            if(drawCleared)
+            {
+                drawMessage.draw("WAVE CLEARED");
+            }
 	}
         
 	function run() {

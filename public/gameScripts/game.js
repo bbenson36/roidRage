@@ -3,7 +3,7 @@ Asteroids.game = (function(){
 	
 	function showScreen(id) {
 		var screen = 0,
-			screens = null;
+                screens = null;
 		//
 		// Remove the active state from all screens.  There should only be one...
 		screens = document.getElementsByClassName('active');

@@ -81,6 +81,24 @@ Asteroids.graphics = (function() {
 		
 		return that;
 	}
+        
+        function messageDraw(spec){
+            var that = {};
+
+
+            that.draw = function(message){
+                    var posX = Asteroids.size.width*0.25,
+                    posY = Asteroids.size.height*0.5;
+                    context.font = spec.font;
+                    context.fillStyle = spec.fill;
+                    context.strokeStyle = spec.stroke;
+                    context.textBaseline = 'middle';
+                    context.fillText(message, posX, posY);
+                    context.strokeText(message, posX, posY);
+            };
+            
+            return that;
+        }
 	
 	
 	function ShipDraw(spec){
@@ -186,8 +204,9 @@ Asteroids.graphics = (function() {
 		clear : clear,
 		BackgroundDraw : BackgroundDraw,
 		ShipDraw : ShipDraw,
-        RoidDraw : RoidDraw,
-        drawImage: drawImage,
-        ShotDraw : ShotDraw
+                RoidDraw : RoidDraw,
+                drawImage: drawImage,
+                ShotDraw : ShotDraw,
+                messageDraw : messageDraw
 	};
 }());
