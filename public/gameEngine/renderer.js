@@ -99,6 +99,24 @@ Asteroids.graphics = (function() {
             
             return that;
         }
+        
+        function livesDraw(spec){
+            var that = {};
+
+
+            that.draw = function(message){
+                    var posX = Asteroids.size.width*0.2,
+                    posY = Asteroids.size.height*0.03;
+                    context.font = spec.font;
+                    context.fillStyle = spec.fill;
+                    context.strokeStyle = spec.stroke;
+                    context.textBaseline = 'top';
+                    context.fillText("Lives: " + message, posX, posY);
+                    context.strokeText("Lives: " + message, posX, posY);
+            };
+            
+            return that;
+        }
 	
 	
 	function ShipDraw(spec){
@@ -207,6 +225,7 @@ Asteroids.graphics = (function() {
                 RoidDraw : RoidDraw,
                 drawImage: drawImage,
                 ShotDraw : ShotDraw,
-                messageDraw : messageDraw
+                messageDraw : messageDraw,
+                livesDraw : livesDraw
 	};
 }());

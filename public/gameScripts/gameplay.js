@@ -29,6 +29,7 @@ Asteroids.screens['game-play'] = (function() {
             asterParticles2 = undefined,
             shipBoomParticles2 = undefined,
             drawMessage = undefined,
+            drawLives = undefined,
             shipAI = Asteroids.ai.AI(myShip, asteroids, bigUFO, smallUFO, shotList, ufoShots, collisions, moveShip),
             thrusterCount = 0,
             level = undefined,
@@ -58,6 +59,12 @@ Asteroids.screens['game-play'] = (function() {
 		});
                 
                 drawnScore = Asteroids.graphics.ScoreDraw({
+			font : '32px Arial, sans-serif',
+			fill : 'blue',
+			stroke : 'green'
+		});
+                
+                drawLives = Asteroids.graphics.livesDraw({
 			font : '32px Arial, sans-serif',
 			fill : 'blue',
 			stroke : 'green'
@@ -333,6 +340,8 @@ Asteroids.screens['game-play'] = (function() {
                     respawn = 1000;
                     myShip.velocity.x = 0;
                     myShip.velocity.y = 0;
+                    myShip.posX = 0.5 * Asteroids.size.width;
+                    myShip.posY = 0.5 * Asteroids.size.height;
                 }
             }
             ufoShots.removeDead();
@@ -404,7 +413,10 @@ Asteroids.screens['game-play'] = (function() {
                     shot.draw(shotList.list[i]);
                 }
             }
+            
             drawnScore.draw(Asteroids.score);
+            drawLives.draw(myShip.lives);
+            
             if(drawCleared)
             {
                 drawMessage.draw("WAVE CLEARED");
