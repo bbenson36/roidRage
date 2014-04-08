@@ -8,6 +8,9 @@ Asteroids.screens['main-menu'] = (function() {
 			'click',
 			function() { Asteroids.game.showScreen('game-play'); },
 			false);
+		document.getElementById('id-high-scores').addEventListener('click',
+				function(){Asteroids.game.showScreen('high-scores');},
+				false);
 	}
 	
 	function run() {

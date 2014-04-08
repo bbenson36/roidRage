@@ -61,6 +61,7 @@ window.addEventListener('load', function() {
 			    //gameScripts
 			    'preload!gameScripts/scoring.js',
 			    'preload!gameScripts/mainmenu.js',
+			    'preload!gameScripts/high-scores.js',
 			    'preload!gameScripts/gameplay.js',
 				'preload!gameScripts/game.js'
 			],
